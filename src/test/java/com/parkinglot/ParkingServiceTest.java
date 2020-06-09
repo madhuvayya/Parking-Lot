@@ -20,5 +20,23 @@ public class ParkingServiceTest {
         int numberOfVehicles = parkingService.vehicleList.size();
         Assert.assertEquals(2,numberOfVehicles);
     }
+
+    @Test
+    public void givenVehicleNumberAsNull_whenNull_shouldThroughException() {
+        try {
+            parkingService.parkVehicle(null);
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.NULL, e.type);
+        }
+    }
+
+    @Test
+    public void givenVehicleNumberAsEmpty_whenEmpty_shouldThroughException() {
+        try {
+            parkingService.parkVehicle("");
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.EMPTY, e.type);
+        }
+    }
 }
 
