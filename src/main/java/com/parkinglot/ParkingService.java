@@ -12,10 +12,16 @@ public class ParkingService {
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NULL,"Entered null");
         if(vehicleNumber == "")
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EMPTY,"Entered empty");
-        if(vehicleList.size() < LOT_CAPACITY) {
-            vehicleList.add(vehicleNumber);
-            return true;
-        }
+        if(vehicleList.size() < LOT_CAPACITY)
+            return vehicleList.add(vehicleNumber);
         return false;
+    }
+
+    public boolean unParkVehicle(String vehicleNumber) {
+        if(vehicleNumber == null)
+            throw new ParkingServiceException(ParkingServiceException.ExceptionType.NULL,"Entered null");
+        if(vehicleNumber == "")
+            throw new ParkingServiceException(ParkingServiceException.ExceptionType.EMPTY,"Entered empty");
+        return vehicleList.remove(vehicleNumber);
     }
 }

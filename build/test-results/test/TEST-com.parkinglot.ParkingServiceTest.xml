@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.parkinglot.ParkingServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2020-06-09T19:14:38" hostname="MADHU" time="0.006">
+<testsuite name="com.parkinglot.ParkingServiceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-06-11T03:58:34" hostname="MADHU" time="0.023">
   <properties/>
-  <testcase name="givenVehicleNumberAsNull_whenNull_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.005"/>
-  <testcase name="givenVehicleNumbers_whenParked_shouldReturnNumberOfVehiclesParked" classname="com.parkinglot.ParkingServiceTest" time="0.001"/>
-  <testcase name="givenVehicleNumberAsEmpty_whenEmpty_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
-  <testcase name="givenVehicleNumber_whenParked_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
-  <system-out><![CDATA[NULL
-EMPTY
-]]></system-out>
+  <testcase name="givenVehicleNumberAsNull_whenNull_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.006"/>
+  <testcase name="givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.001"/>
+  <testcase name="givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumberToPark_whenParked_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.002"/>
+  <testcase name="givenVehicleNumberAsEmpty_whenEmpty_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
