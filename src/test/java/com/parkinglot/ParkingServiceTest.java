@@ -77,24 +77,36 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException() {
+    public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldNotThrowException() {
         parkingService.parkVehicle("TS08CV5421");
         parkingService.parkVehicle("TA07EC3633");
         parkingService.parkVehicle("AP24AC7684");
         parkingService.parkVehicle("TN11WA4563");
+        parkingService.parkVehicle("KA12TH4651");
+    }
+
+    @Test
+    public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException() {
         try {
-            parkingService.parkVehicle("KA12TH4651");
-        } catch (ParkingServiceException e) {
-            Assert.assertEquals(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL, e.type);
+            parkingService.parkVehicle("TS08CV5421");
+            parkingService.parkVehicle("TA07EC3633");
+            parkingService.parkVehicle("AP24AC7684");
+            parkingService.parkVehicle("TN11WA4563");
+            parkingService.parkVehicle("TS13VF9876");
+            parkingService.parkVehicle("TS35TV7684");
+        } catch (ParkingServiceException e){
+            Assert.assertEquals(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
         }
     }
 
     @Test
-    public void givenVehicleNumbersToPark_whenParkingLotIsNotFull_shouldNotThrowException() {
-        parkingService.parkVehicle("TS08CV5421");
-        parkingService.parkVehicle("TA07EC3633");
-        parkingService.parkVehicle("AP24AC7684");
-        parkingService.parkVehicle("TN11WA4563");
+    public void givenSameVehicleNumberToPark_whenSameNumberEntered_shouldThrowException() {
+        try {
+            parkingService.parkVehicle("TA07EC3633");
+            parkingService.parkVehicle("TA07EC3633");
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.EXISTING,e.type);
+        }
     }
 }
 

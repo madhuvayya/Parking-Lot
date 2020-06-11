@@ -5,7 +5,8 @@ public class ParkingServiceException extends RuntimeException {
         ENTERED_NULL,
         ENTERED_EMPTY,
         NOT_IN_THE_PARKED_LIST,
-        PARKING_LOT_IS_FULL;
+        PARKING_LOT_IS_FULL,
+        EXISTING;
     }
     ExceptionType type;
 

@@ -17,19 +17,20 @@ public class ParkingService {
 
     public boolean parkVehicle(String vehicleNumber) {
         checkForException(vehicleNumber);
-        if(vehicleList.size() < parkingLotCapacity) {
-            boolean added = vehicleList.add(vehicleNumber);
-            this.isFull();
-            return added;
-        }
-        return false;
+        if (vehicleList.size() == parkingLotCapacity )
+            throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
+                    "Parking lot is full");
+        if(vehicleList.contains(vehicleNumber))
+            throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
+                                                "Entered vehicle number existing in the list");
+        boolean added = vehicleList.add(vehicleNumber);
+        this.isFull();
+        return added;
     }
 
     private void isFull() {
         if (vehicleList.size() == parkingLotCapacity ) {
             parkingLotOwner.full();
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
-                    "Parking lot is full");
         }
     }
 
@@ -38,10 +39,7 @@ public class ParkingService {
         if(!vehicleList.contains(vehicleNumber))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
-        boolean removed = vehicleList.remove(vehicleNumber);
-        int availableSpaces = parkingLotCapacity - vehicleList.size();
-        System.out.println("Parking lot has"+ availableSpaces +" spaces");
-        return removed;
+        return vehicleList.remove(vehicleNumber);
     }
 
     private void checkForException(String vehicleNumber){
