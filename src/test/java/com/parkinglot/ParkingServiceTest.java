@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class ParkingServiceTest {
 
-    ParkingService parkingService = new ParkingService();
+    ParkingService parkingService = new ParkingService(5);
 
     @Test
     public void givenVehicleNumberToPark_whenParked_shouldReturnTrue() {
@@ -50,7 +50,6 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberAsEmptyToUnPark_whenEnteredEmpty_shouldThroughException() {
-        ParkingService parkingService = new ParkingService();
         try {
             parkingService.unParkVehicle("");
         } catch (ParkingServiceException e) {
