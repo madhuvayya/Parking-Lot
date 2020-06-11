@@ -50,6 +50,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberAsEmptyToUnPark_whenEnteredEmpty_shouldThroughException() {
+        ParkingService parkingService = new ParkingService();
         try {
             parkingService.unParkVehicle("");
         } catch (ParkingServiceException e) {

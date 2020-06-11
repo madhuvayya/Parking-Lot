@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.parkinglot.ParkingServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-06-11T05:36:30" hostname="MADHU" time="0.009">
+<testsuite name="com.parkinglot.ParkingServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-06-11T06:37:18" hostname="MADHU" time="0.014">
   <properties/>
-  <testcase name="givenVehicleNumberAsNullToUnPark_whenEnteredNull_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.004"/>
-  <testcase name="givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
-  <testcase name="givenVehicleNumberAsEmptyToUnPark_whenEnteredEmpty_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumberAsNullToUnPark_whenEnteredNull_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.002"/>
+  <testcase name="givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException" classname="com.parkinglot.ParkingServiceTest" time="0.004"/>
+  <testcase name="givenVehicleNumberAsEmptyToUnPark_whenEnteredEmpty_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.001"/>
   <testcase name="givenVehicleNumberAsEmpty_whenEnteredEmpty_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
   <testcase name="givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
   <testcase name="givenVehicleNumbersToPark_whenParkingLotIsNotFull_shouldNotThrowException" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
   <testcase name="givenVehicleNumberAsNull_whenEnteredNull_shouldThroughException" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
   <testcase name="givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
   <testcase name="givenVehicleNumberToPark_whenParked_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
-  <testcase name="givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue" classname="com.parkinglot.ParkingServiceTest" time="0.001"/>
+  <system-out><![CDATA[Parking lot is full
+Parking lot has space:4
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
