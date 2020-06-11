@@ -22,7 +22,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void givenVehicleNumberAsNull_whenNull_shouldThroughException() {
+    public void givenVehicleNumberAsNull_whenEnteredNull_shouldThroughException() {
         try {
             parkingService.parkVehicle(null);
         } catch (ParkingServiceException e) {
@@ -31,9 +31,27 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void givenVehicleNumberAsEmpty_whenEmpty_shouldThroughException() {
+    public void givenVehicleNumberAsEmpty_whenEnteredEmpty_shouldThroughException() {
         try {
             parkingService.parkVehicle("");
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.EMPTY, e.type);
+        }
+    }
+
+    @Test
+    public void givenVehicleNumberAsNullToUnPark_whenEnteredNull_shouldThroughException() {
+        try {
+            parkingService.unParkVehicle(null);
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.NULL, e.type);
+        }
+    }
+
+    @Test
+    public void givenVehicleNumberAsEmptyToUnPark_whenEnteredEmpty_shouldThroughException() {
+        try {
+            parkingService.unParkVehicle("");
         } catch (ParkingServiceException e) {
             Assert.assertEquals(ParkingServiceException.ExceptionType.EMPTY, e.type);
         }
