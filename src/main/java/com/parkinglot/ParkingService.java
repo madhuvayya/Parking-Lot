@@ -5,11 +5,11 @@ import java.util.List;
 
 public class ParkingService {
 
-    private final int parkingLotCapacity;
+    private final int PARKING_LOT_CAPACITY;
     List<String> vehicleList;
 
     public ParkingService(int parkingLotCapacity) {
-        this.parkingLotCapacity = parkingLotCapacity;
+        this.PARKING_LOT_CAPACITY = parkingLotCapacity;
         vehicleList = new LinkedList<>();
     }
 
@@ -18,7 +18,7 @@ public class ParkingService {
 
     public boolean parkVehicle(String vehicleNumber) {
         checkForException(vehicleNumber);
-        if (vehicleList.size() == parkingLotCapacity )
+        if (vehicleList.size() == PARKING_LOT_CAPACITY)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
         if(vehicleList.contains(vehicleNumber))
@@ -30,7 +30,7 @@ public class ParkingService {
     }
 
     private void isFull() {
-        if (vehicleList.size() == parkingLotCapacity ) {
+        if (vehicleList.size() == PARKING_LOT_CAPACITY) {
             parkingLotOwner.full();
             airportSecurity.full();
         }
@@ -41,7 +41,9 @@ public class ParkingService {
         if(!vehicleList.contains(vehicleNumber))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
-        return vehicleList.remove(vehicleNumber);
+        boolean removed = vehicleList.remove(vehicleNumber);
+        parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleList.size());
+        return removed;
     }
 
     private void checkForException(String vehicleNumber){
