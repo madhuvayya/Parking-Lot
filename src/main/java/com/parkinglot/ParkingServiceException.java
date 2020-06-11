@@ -2,8 +2,9 @@ package com.parkinglot;
 
 public class ParkingServiceException extends RuntimeException {
     public enum ExceptionType {
-        NULL,
-        EMPTY
+        ENTERED_NULL,
+        ENTERED_EMPTY,
+        NOT_IN_THE_PARKED_LIST;
     }
     ExceptionType type;
 

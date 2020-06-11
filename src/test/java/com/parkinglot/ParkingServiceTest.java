@@ -26,7 +26,7 @@ public class ParkingServiceTest {
         try {
             parkingService.parkVehicle(null);
         } catch (ParkingServiceException e) {
-            Assert.assertEquals(ParkingServiceException.ExceptionType.NULL, e.type);
+            Assert.assertEquals(ParkingServiceException.ExceptionType.ENTERED_NULL, e.type);
         }
     }
 
@@ -35,7 +35,7 @@ public class ParkingServiceTest {
         try {
             parkingService.parkVehicle("");
         } catch (ParkingServiceException e) {
-            Assert.assertEquals(ParkingServiceException.ExceptionType.EMPTY, e.type);
+            Assert.assertEquals(ParkingServiceException.ExceptionType.ENTERED_EMPTY, e.type);
         }
     }
 
@@ -44,7 +44,7 @@ public class ParkingServiceTest {
         try {
             parkingService.unParkVehicle(null);
         } catch (ParkingServiceException e) {
-            Assert.assertEquals(ParkingServiceException.ExceptionType.NULL, e.type);
+            Assert.assertEquals(ParkingServiceException.ExceptionType.ENTERED_NULL, e.type);
         }
     }
 
@@ -53,7 +53,7 @@ public class ParkingServiceTest {
         try {
             parkingService.unParkVehicle("");
         } catch (ParkingServiceException e) {
-            Assert.assertEquals(ParkingServiceException.ExceptionType.EMPTY, e.type);
+            Assert.assertEquals(ParkingServiceException.ExceptionType.ENTERED_EMPTY, e.type);
         }
     }
 
@@ -65,5 +65,15 @@ public class ParkingServiceTest {
         Assert.assertTrue(isParked);
     }
 
+    @Test
+    public void givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue() {
+        parkingService.parkVehicle("TS08CV5421");
+        parkingService.parkVehicle("TA07EC3633");
+        try {
+            parkingService.unParkVehicle("TA07TD8945");
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,e.type);
+        }
+    }
 }
 
