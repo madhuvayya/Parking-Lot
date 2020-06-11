@@ -1,6 +1,6 @@
 package com.parkinglot;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ParkingService {
@@ -10,7 +10,7 @@ public class ParkingService {
 
     public ParkingService(int parkingLotCapacity) {
         this.parkingLotCapacity = parkingLotCapacity;
-        vehicleList = new ArrayList<>(parkingLotCapacity);
+        vehicleList = new LinkedList<>();
     }
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
