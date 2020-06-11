@@ -75,5 +75,26 @@ public class ParkingServiceTest {
             Assert.assertEquals(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,e.type);
         }
     }
+
+    @Test
+    public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException() {
+        parkingService.parkVehicle("TS08CV5421");
+        parkingService.parkVehicle("TA07EC3633");
+        parkingService.parkVehicle("AP24AC7684");
+        parkingService.parkVehicle("TN11WA4563");
+        try {
+            parkingService.parkVehicle("KA12TH4651");
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL, e.type);
+        }
+    }
+
+    @Test
+    public void givenVehicleNumbersToPark_whenParkingLotIsNotFull_shouldNotThrowException() {
+        parkingService.parkVehicle("TS08CV5421");
+        parkingService.parkVehicle("TA07EC3633");
+        parkingService.parkVehicle("AP24AC7684");
+        parkingService.parkVehicle("TN11WA4563");
+    }
 }
 

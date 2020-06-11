@@ -4,7 +4,8 @@ public class ParkingServiceException extends RuntimeException {
     public enum ExceptionType {
         ENTERED_NULL,
         ENTERED_EMPTY,
-        NOT_IN_THE_PARKED_LIST;
+        NOT_IN_THE_PARKED_LIST,
+        PARKING_LOT_IS_FULL;
     }
     ExceptionType type;
 

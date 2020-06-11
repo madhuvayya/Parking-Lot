@@ -4,14 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingService {
-    private static final int LOT_CAPACITY = 100;
-    List<String> vehicleList = new ArrayList<>(LOT_CAPACITY);
+    private static final int PARKING_LOT_CAPACITY = 5;
+    List<String> vehicleList = new ArrayList<>(PARKING_LOT_CAPACITY);
 
     public boolean parkVehicle(String vehicleNumber) {
         checkForException(vehicleNumber);
-        if(vehicleList.size() < LOT_CAPACITY)
-            return vehicleList.add(vehicleNumber);
+        if(vehicleList.size() < PARKING_LOT_CAPACITY) {
+            boolean added = vehicleList.add(vehicleNumber);
+            this.isFull();
+            return added;
+        }
         return false;
+    }
+
+    private void isFull() {
+        if (vehicleList.size() == PARKING_LOT_CAPACITY )
+            throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
+                                                "Parking lot is full");
     }
 
     public boolean unParkVehicle(String vehicleNumber) {
