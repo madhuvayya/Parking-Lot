@@ -14,6 +14,7 @@ public class ParkingService {
     }
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
+    AirportSecurity airportSecurity = new AirportSecurity();
 
     public boolean parkVehicle(String vehicleNumber) {
         checkForException(vehicleNumber);
@@ -31,6 +32,7 @@ public class ParkingService {
     private void isFull() {
         if (vehicleList.size() == parkingLotCapacity ) {
             parkingLotOwner.full();
+            airportSecurity.full();
         }
     }
 
