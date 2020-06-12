@@ -91,5 +91,14 @@ public class ParkingServiceTest {
             Assert.assertEquals(ParkingServiceException.ExceptionType.EXISTING,e.type);
         }
     }
+
+    @Test
+    public void givenVehicleNumberToPark_whenVehicleComes_shouldCallAttendent() {
+        try {
+            parkingService.parkVehicle(new Vehicle("TA07EC3633","green"));
+        } catch (ParkingServiceException e) {
+            Assert.assertEquals(ParkingServiceException.ExceptionType.EXISTING,e.type);
+        }
+    }
 }
 

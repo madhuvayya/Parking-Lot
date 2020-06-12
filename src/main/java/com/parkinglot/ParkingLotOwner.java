@@ -1,8 +1,9 @@
 package com.parkinglot;
 
 public class ParkingLotOwner {
-    public void full() {
-        System.out.println("Parking lot is full");
+    public void full(boolean fullStatus) {
+        if(fullStatus)
+            System.out.println("Parking lot is full");
     }
 
     public void availableSpace(int spaces) {

@@ -15,6 +15,7 @@ public class ParkingService {
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
+    ParkingAttendant parkingAttendant = new ParkingAttendant();
 
     public boolean parkVehicle(Vehicle vehicle) {
         checkForException(vehicle);
@@ -24,6 +25,7 @@ public class ParkingService {
         if(vehicleList.contains(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
+        parkingAttendant.parkVehicle(true);
         boolean added = vehicleList.add(vehicle);
         this.isFull();
         return added;
@@ -31,8 +33,8 @@ public class ParkingService {
 
     private void isFull() {
         if (vehicleList.size() == PARKING_LOT_CAPACITY) {
-            parkingLotOwner.full();
-            airportSecurity.full();
+            parkingLotOwner.full(true);
+            airportSecurity.full(true);
         }
     }
 
