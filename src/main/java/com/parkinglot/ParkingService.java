@@ -1,55 +1,63 @@
 package com.parkinglot;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ParkingService {
 
     private final int PARKING_LOT_CAPACITY;
-    List<Vehicle> vehicleList;
+    Map<Vehicle,Integer> vehicleMap;
+    int occupiedSpots = 0;
 
     public ParkingService(int parkingLotCapacity) {
         this.PARKING_LOT_CAPACITY = parkingLotCapacity;
-        vehicleList = new LinkedList<>();
+        vehicleMap = new HashMap<>();
     }
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
     ParkingAttendant parkingAttendant = new ParkingAttendant();
 
-    public boolean parkVehicle(Vehicle vehicle) {
+    public void parkVehicle(Vehicle vehicle) {
         checkForException(vehicle);
-        if (vehicleList.size() == PARKING_LOT_CAPACITY)
+        if (vehicleMap.size() == PARKING_LOT_CAPACITY)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
-        if(vehicleList.contains(vehicle))
+        if(vehicleMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
+        vehicleMap.put(vehicle, ++occupiedSpots);
         parkingAttendant.parkVehicle(true);
-        boolean added = vehicleList.add(vehicle);
         this.isFull();
-        return added;
     }
 
     private void isFull() {
-        if (vehicleList.size() == PARKING_LOT_CAPACITY) {
+        if (vehicleMap.size() == PARKING_LOT_CAPACITY) {
             parkingLotOwner.full(true);
             airportSecurity.full(true);
         }
     }
 
-    public boolean unParkVehicle(Vehicle vehicle) {
+    public void unParkVehicle(Vehicle vehicle) {
         checkForException(vehicle);
-        if(!vehicleList.contains(vehicle))
+        if(!vehicleMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
-        boolean removed = vehicleList.remove(vehicle);
-        parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleList.size());
-        return removed;
+        vehicleMap.remove(vehicle);
+        occupiedSpots--;
+        parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleMap.size());
     }
 
     private void checkForException(Vehicle vehicle){
         if(vehicle == null)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_NULL,"Entered null");
+    }
+
+    public int getParkedSpot(Vehicle vehicle) {
+        return vehicleMap.get(vehicle);
+    }
+
+    public int getOccupiedSpots(){
+        return vehicleMap.size();
     }
 }

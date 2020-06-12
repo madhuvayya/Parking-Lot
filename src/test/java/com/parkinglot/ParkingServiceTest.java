@@ -9,15 +9,16 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberToPark_whenParked_shouldReturnTrue() {
-        boolean isParked = parkingService.parkVehicle(new Vehicle("TA07EC3633","black"));
-        Assert.assertTrue(isParked);
+        parkingService.parkVehicle(new Vehicle("TA07EC3633", "black"));
+        int occupiedSpots = parkingService.getOccupiedSpots();
+        Assert.assertEquals(1,occupiedSpots);
     }
 
     @Test
     public void givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked() {
         parkingService.parkVehicle(new Vehicle("TS08CV5421","white"));
         parkingService.parkVehicle(new Vehicle("TA07EC3633","black"));
-        int numberOfVehicles = parkingService.vehicleList.size();
+        int numberOfVehicles = parkingService.vehicleMap.size();
         Assert.assertEquals(2,numberOfVehicles);
     }
 
@@ -41,11 +42,12 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue() {
-        parkingService.parkVehicle(new Vehicle("TS08CV5421","white"));
+        parkingService.parkVehicle(new Vehicle("TS08CV5421", "white"));
         Vehicle vehicle = new Vehicle("TA07EC3633", "black");
         parkingService.parkVehicle(vehicle);
-        boolean isParked = parkingService.unParkVehicle(vehicle);
-        Assert.assertTrue(isParked);
+        parkingService.unParkVehicle(vehicle);
+        int occupiedSpots = parkingService.getOccupiedSpots();
+        Assert.assertEquals(1,occupiedSpots);
     }
 
     @Test
@@ -93,12 +95,16 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void givenVehicleNumberToPark_whenVehicleComes_shouldCallAttendent() {
-        try {
-            parkingService.parkVehicle(new Vehicle("TA07EC3633","green"));
-        } catch (ParkingServiceException e) {
-            Assert.assertEquals(ParkingServiceException.ExceptionType.EXISTING,e.type);
-        }
+    public void givenVehicleNumber_whenFound_shouldReturnParkedSpot() {
+        Vehicle vehicle1 = new Vehicle("TA07EC3633", "green");
+        parkingService.parkVehicle(vehicle1);
+        Vehicle vehicle2 = new Vehicle("AP24AC7684", "brown");
+        parkingService.parkVehicle(vehicle2);
+        Vehicle vehicle3 = new Vehicle("TN11WA4563", "black");
+        parkingService.parkVehicle(vehicle3);
+        int parkedSpot = parkingService.getParkedSpot(vehicle2);
+        Assert.assertEquals(2,parkedSpot);
     }
+
 }
 
