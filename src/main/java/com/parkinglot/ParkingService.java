@@ -7,11 +7,13 @@ public class ParkingService {
 
     private final int PARKING_LOT_CAPACITY;
     Map<Vehicle,Integer> vehicleMap;
+    Map<Vehicle,Long> vehicleTimeMap;
     int occupiedSpots = 0;
 
     public ParkingService(int parkingLotCapacity) {
         this.PARKING_LOT_CAPACITY = parkingLotCapacity;
         vehicleMap = new HashMap<>();
+        vehicleTimeMap = new HashMap<>();
     }
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
@@ -26,8 +28,9 @@ public class ParkingService {
         if(vehicleMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        vehicleMap.put(vehicle, ++occupiedSpots);
         parkingAttendant.parkVehicle(true);
+        vehicleMap.put(vehicle, ++occupiedSpots);
+        vehicleTimeMap.put(vehicle,System.currentTimeMillis());
         this.isFull();
     }
 
@@ -59,5 +62,11 @@ public class ParkingService {
 
     public int getOccupiedSpots(){
         return vehicleMap.size();
+    }
+
+
+    public long getParkedTime(Vehicle vehicle) {
+        Long parkedTime = vehicleTimeMap.get(vehicle);
+        return System.currentTimeMillis() - parkedTime;
     }
 }

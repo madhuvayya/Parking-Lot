@@ -106,5 +106,13 @@ public class ParkingServiceTest {
         Assert.assertEquals(2,parkedSpot);
     }
 
+    @Test
+    public void givenVehicleNumbersToUnPark_whenUnPark_shouldReturnParkedTime() {
+        Vehicle vehicle = new Vehicle("TS08CV5421", "white");
+        parkingService.parkVehicle(vehicle);
+        long parkedTime = parkingService.getParkedTime(vehicle);
+        Assert.assertEquals(0,parkedTime);
+    }
+
 }
 
