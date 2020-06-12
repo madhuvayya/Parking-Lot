@@ -6,7 +6,7 @@ import java.util.List;
 public class ParkingService {
 
     private final int PARKING_LOT_CAPACITY;
-    List<String> vehicleList;
+    List<Vehicle> vehicleList;
 
     public ParkingService(int parkingLotCapacity) {
         this.PARKING_LOT_CAPACITY = parkingLotCapacity;
@@ -16,15 +16,15 @@ public class ParkingService {
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
 
-    public boolean parkVehicle(String vehicleNumber) {
-        checkForException(vehicleNumber);
+    public boolean parkVehicle(Vehicle vehicle) {
+        checkForException(vehicle);
         if (vehicleList.size() == PARKING_LOT_CAPACITY)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
-        if(vehicleList.contains(vehicleNumber))
+        if(vehicleList.contains(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        boolean added = vehicleList.add(vehicleNumber);
+        boolean added = vehicleList.add(vehicle);
         this.isFull();
         return added;
     }
@@ -36,20 +36,18 @@ public class ParkingService {
         }
     }
 
-    public boolean unParkVehicle(String vehicleNumber) {
-        checkForException(vehicleNumber);
-        if(!vehicleList.contains(vehicleNumber))
+    public boolean unParkVehicle(Vehicle vehicle) {
+        checkForException(vehicle);
+        if(!vehicleList.contains(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
-        boolean removed = vehicleList.remove(vehicleNumber);
+        boolean removed = vehicleList.remove(vehicle);
         parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleList.size());
         return removed;
     }
 
-    private void checkForException(String vehicleNumber){
-        if(vehicleNumber == null)
+    private void checkForException(Vehicle vehicle){
+        if(vehicle == null)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_NULL,"Entered null");
-        if(vehicleNumber.length() == 0)
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_EMPTY,"Entered empty");
     }
 }
