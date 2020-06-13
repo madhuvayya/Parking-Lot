@@ -1,8 +1,7 @@
 package com.parkinglot;
 
 public class AirportSecurity {
-    public void full(boolean fullStatus) {
-        if(fullStatus)
-            System.out.println("Parking lot is full");
+    public void full(boolean status) {
+        boolean fullStatus = status;
     }
 }

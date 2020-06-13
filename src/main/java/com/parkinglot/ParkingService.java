@@ -6,36 +6,32 @@ import java.util.Map;
 public class ParkingService {
 
     private final int PARKING_LOT_CAPACITY;
-    Map<Vehicle,Integer> vehicleMap;
-    Map<Vehicle,Long> vehicleTimeMap;
+    Map<Vehicle,ParkedDetails> vehicleParkedDetailsMap;
     int occupiedSpots = 0;
 
     public ParkingService(int parkingLotCapacity) {
         this.PARKING_LOT_CAPACITY = parkingLotCapacity;
-        vehicleMap = new HashMap<>();
-        vehicleTimeMap = new HashMap<>();
+        vehicleParkedDetailsMap = new HashMap<>();
     }
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
-    ParkingAttendant parkingAttendant = new ParkingAttendant();
 
     public void parkVehicle(Vehicle vehicle) {
         checkForException(vehicle);
-        if (vehicleMap.size() == PARKING_LOT_CAPACITY)
+        if (vehicleParkedDetailsMap.size() == PARKING_LOT_CAPACITY)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
-        if(vehicleMap.containsKey(vehicle))
+        if(vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        parkingAttendant.parkVehicle(true);
-        vehicleMap.put(vehicle, ++occupiedSpots);
-        vehicleTimeMap.put(vehicle,System.currentTimeMillis());
+        ParkedDetails parkedDetails = new ParkedDetails(++occupiedSpots, System.currentTimeMillis());
+        vehicleParkedDetailsMap.put(vehicle,parkedDetails);
         this.isFull();
     }
 
     private void isFull() {
-        if (vehicleMap.size() == PARKING_LOT_CAPACITY) {
+        if (vehicleParkedDetailsMap.size() == PARKING_LOT_CAPACITY) {
             parkingLotOwner.full(true);
             airportSecurity.full(true);
         }
@@ -43,12 +39,12 @@ public class ParkingService {
 
     public void unParkVehicle(Vehicle vehicle) {
         checkForException(vehicle);
-        if(!vehicleMap.containsKey(vehicle))
+        if(!vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
-        vehicleMap.remove(vehicle);
+        vehicleParkedDetailsMap.remove(vehicle);
         occupiedSpots--;
-        parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleMap.size());
+        parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleParkedDetailsMap.size());
     }
 
     private void checkForException(Vehicle vehicle){
@@ -57,16 +53,15 @@ public class ParkingService {
     }
 
     public int getParkedSpot(Vehicle vehicle) {
-        return vehicleMap.get(vehicle);
+        return vehicleParkedDetailsMap.get(vehicle).getSpot();
     }
 
     public int getOccupiedSpots(){
-        return vehicleMap.size();
+        return vehicleParkedDetailsMap.size();
     }
-
 
     public long getParkedTime(Vehicle vehicle) {
-        Long parkedTime = vehicleTimeMap.get(vehicle);
-        return System.currentTimeMillis() - parkedTime;
+        return System.currentTimeMillis() - vehicleParkedDetailsMap.get(vehicle).getParkedTime();
     }
+
 }
