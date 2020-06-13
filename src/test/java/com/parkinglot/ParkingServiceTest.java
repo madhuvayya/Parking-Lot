@@ -5,10 +5,10 @@ import org.junit.Test;
 
 public class ParkingServiceTest {
 
-    ParkingService parkingService = new ParkingService(5);
 
     @Test
     public void givenVehicleNumberToPark_whenParked_shouldReturnTrue() {
+        ParkingService parkingService = new ParkingService();
         parkingService.parkVehicle(new Vehicle("TA07EC3633"));
         int occupiedSpots = parkingService.getOccupiedSpots();
         Assert.assertEquals(1,occupiedSpots);
@@ -16,6 +16,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked() {
+        ParkingService parkingService = new ParkingService();
         parkingService.parkVehicle(new Vehicle("TS08CV5421"));
         parkingService.parkVehicle(new Vehicle("TA07EC3633"));
         int numberOfVehicles = parkingService.getOccupiedSpots();
@@ -24,6 +25,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberAsNull_whenEnteredNull_shouldThroughException() {
+        ParkingService parkingService = new ParkingService();
         try {
             parkingService.parkVehicle(null);
         } catch (ParkingServiceException e) {
@@ -33,6 +35,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberAsNullToUnPark_whenEnteredNull_shouldThroughException() {
+        ParkingService parkingService = new ParkingService();
         try {
             parkingService.unParkVehicle(null);
         } catch (ParkingServiceException e) {
@@ -42,6 +45,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue() {
+        ParkingService parkingService = new ParkingService();
         parkingService.parkVehicle(new Vehicle("TS08CV5421"));
         Vehicle vehicle = new Vehicle("TA07EC3633");
         parkingService.parkVehicle(vehicle);
@@ -52,6 +56,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue() {
+        ParkingService parkingService = new ParkingService();
         parkingService.parkVehicle(new Vehicle("TS08CV5421"));
         parkingService.parkVehicle(new Vehicle("TA07EC3633"));
         try {
@@ -63,6 +68,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldNotThrowException() {
+        ParkingService parkingService = new ParkingService();
         parkingService.parkVehicle(new Vehicle("TS08CV5421"));
         parkingService.parkVehicle(new Vehicle("TA07EC3633"));
         parkingService.parkVehicle(new Vehicle("AP24AC7684"));
@@ -72,6 +78,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException() {
+        ParkingService parkingService = new ParkingService();
         try {
             parkingService.parkVehicle(new Vehicle("TS08CV5421"));
             parkingService.parkVehicle(new Vehicle("TA07EC3633"));
@@ -86,6 +93,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenSameVehicleNumberToPark_whenSameNumberEntered_shouldThrowException() {
+        ParkingService parkingService = new ParkingService();
         try {
             Vehicle vehicle = new Vehicle("TA07EC3633");
             parkingService.parkVehicle(vehicle);
@@ -97,6 +105,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumber_whenFound_shouldReturnParkedSpot() {
+        ParkingService parkingService = new ParkingService();
         Vehicle vehicle1 = new Vehicle("TA07EC3633");
         parkingService.parkVehicle(vehicle1);
         Vehicle vehicle2 = new Vehicle("AP24AC7684");
@@ -109,6 +118,7 @@ public class ParkingServiceTest {
 
     @Test
     public void givenVehicleNumbersToUnPark_whenUnPark_shouldReturnParkedTime() {
+        ParkingService parkingService = new ParkingService();
         Vehicle vehicle = new Vehicle("TS08CV5421");
         parkingService.parkVehicle(vehicle);
         long parkedTime = parkingService.getParkedTime(vehicle);

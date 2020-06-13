@@ -5,13 +5,16 @@ import java.util.Map;
 
 public class ParkingService {
 
-    private final int PARKING_LOT_CAPACITY;
+    private final int PARKING_LOT_CAPACITY = 5;
     Map<Vehicle,ParkedDetails> vehicleParkedDetailsMap;
-    int occupiedSpots = 0;
+    boolean[] spots;
 
-    public ParkingService(int parkingLotCapacity) {
-        this.PARKING_LOT_CAPACITY = parkingLotCapacity;
+    public ParkingService() {
         vehicleParkedDetailsMap = new HashMap<>();
+        spots = new boolean[PARKING_LOT_CAPACITY];
+        for(int i=0; i < PARKING_LOT_CAPACITY;i++){
+            spots[i] = false;
+        }
     }
 
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
@@ -25,7 +28,8 @@ public class ParkingService {
         if(vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        ParkedDetails parkedDetails = new ParkedDetails(++occupiedSpots, System.currentTimeMillis());
+        int spot = this.getParkingSpot();
+        ParkedDetails parkedDetails = new ParkedDetails(spot, System.currentTimeMillis());
         vehicleParkedDetailsMap.put(vehicle,parkedDetails);
         this.isFull();
     }
@@ -42,8 +46,8 @@ public class ParkingService {
         if(!vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
+        this.setParkedSpot(vehicle);
         vehicleParkedDetailsMap.remove(vehicle);
-        occupiedSpots--;
         parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleParkedDetailsMap.size());
     }
 
@@ -64,4 +68,23 @@ public class ParkingService {
         return System.currentTimeMillis() - vehicleParkedDetailsMap.get(vehicle).getParkedTime();
     }
 
+    private int getParkingSpot(){
+       for(int i = 0; i < PARKING_LOT_CAPACITY ;i++){
+           if(!spots[i]) {
+               spots[i] = true;
+               return i + 1;
+           }
+       }
+       return -1;
+    }
+
+    private void setParkedSpot(Vehicle vehicle){
+        int parkedSpot = this.getParkedSpot(vehicle);
+        spots[parkedSpot-1] = false;
+    }
+
+    public void printSpotStatus() {
+        for(boolean spot:spots)
+            System.out.print(spot+" ");
+    }
 }
