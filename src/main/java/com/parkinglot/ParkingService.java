@@ -1,24 +1,28 @@
 package com.parkinglot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ParkingService {
 
     private final int PARKING_LOT_CAPACITY = 5;
     Map<Vehicle,ParkedDetails> vehicleParkedDetailsMap;
+    List<ParkedDetails> parkedDetailsList;
     boolean[] spots;
+
+    ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
+    AirportSecurity airportSecurity = new AirportSecurity();
 
     public ParkingService() {
         vehicleParkedDetailsMap = new HashMap<>();
+        parkedDetailsList = new ArrayList<>();
         spots = new boolean[PARKING_LOT_CAPACITY];
         for(int i=0; i < PARKING_LOT_CAPACITY;i++){
             spots[i] = false;
         }
     }
-
-    ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
-    AirportSecurity airportSecurity = new AirportSecurity();
 
     public void parkVehicle(Vehicle vehicle) {
         checkForException(vehicle);
@@ -28,9 +32,10 @@ public class ParkingService {
         if(vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        int spot = this.getParkingSpot();
-        ParkedDetails parkedDetails = new ParkedDetails(spot, System.currentTimeMillis());
+        int spot = this.getParkingSpot(vehicle);
+        ParkedDetails parkedDetails = new ParkedDetails(vehicle,spot, System.currentTimeMillis());
         vehicleParkedDetailsMap.put(vehicle,parkedDetails);
+        parkedDetailsList.add(parkedDetails);
         this.isFull();
     }
 
@@ -68,23 +73,26 @@ public class ParkingService {
         return System.currentTimeMillis() - vehicleParkedDetailsMap.get(vehicle).getParkedTime();
     }
 
-    private int getParkingSpot(){
+    private int getParkingSpot(Vehicle vehicle){
        for(int i = 0; i < PARKING_LOT_CAPACITY ;i++){
            if(!spots[i]) {
                spots[i] = true;
+               if(vehicle.getDriver().equals(Driver.DISABLED))
+                   return this.getParkingSpotForDisabled(i+1);
                return i + 1;
            }
        }
        return -1;
     }
 
-    private void setParkedSpot(Vehicle vehicle){
-        int parkedSpot = this.getParkedSpot(vehicle);
-        spots[parkedSpot-1] = false;
+    private int getParkingSpotForDisabled(int spot) {
+        parkedDetailsList.get(0).setSpot(spot);
+        spots[spot-1] = true;
+        return 1;
     }
 
-    public void printSpotStatus() {
-        for(boolean spot:spots)
-            System.out.print(spot+" ");
+    private void setParkedSpot(Vehicle vehicle) {
+        int parkedSpot = this.getParkedSpot(vehicle);
+        spots[parkedSpot-1] = false;
     }
 }
