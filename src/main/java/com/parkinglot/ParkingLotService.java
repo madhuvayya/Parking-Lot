@@ -4,17 +4,17 @@ import java.util.List;
 
 public class ParkingLotService {
 
-    private final int numberOfParkingLots;
-    List<ParkingLot> parkingLots;
-    int currentLot = 0;
+    private final int numberOfParkingSlots;
+    List<ParkingSlot> parkingSlots;
+    int currentSlot = 0;
 
-    public ParkingLotService(List<ParkingLot> parkingLots) {
-        this.parkingLots = parkingLots;
-        this.numberOfParkingLots = parkingLots.size();
+    public ParkingLotService(List<ParkingSlot> parkingLots) {
+        this.parkingSlots = parkingLots;
+        this.numberOfParkingSlots = parkingLots.size();
     }
 
-    public int getNumberOfParkingLots(){
-        return parkingLots.size();
+    public int getNumberOfParkingSlots(){
+        return parkingSlots.size();
     }
 
     public void parkVehicle(Vehicle vehicle,Driver driver){
@@ -22,29 +22,37 @@ public class ParkingLotService {
     }
 
     private void directVehicle(Vehicle vehicle,Driver driver) {
-        for (int lot = 0; lot <= numberOfParkingLots;lot++) {
-           if (parkingLots.get(currentLot).getOccupiedSpots() < parkingLots.get(currentLot).PARKING_LOT_CAPACITY){
-               parkingLots.get(currentLot).parkVehicle(vehicle, driver);
+        for (int slot = 0; slot <= numberOfParkingSlots; slot++) {
+           if (parkingSlots.get(currentSlot).getOccupiedSpots() < parkingSlots.get(currentSlot).PARKING_SLOT_CAPACITY){
+               parkingSlots.get(currentSlot).parkVehicle(vehicle, driver);
                return;
            }
-           currentLot++;
-           if(currentLot > numberOfParkingLots-1)
-                currentLot = 0;
-           this.checkParkingLotsFull();
+           currentSlot++;
+           if(currentSlot > numberOfParkingSlots -1)
+                currentSlot = 0;
+           this.checkParkingSlotsFull();
        }
     }
 
-    private void checkParkingLotsFull() {
+    private void checkParkingSlotsFull() {
         int numberOfLotsFull = 0;
-        for (ParkingLot parkingLot: parkingLots) {
-            if(parkingLot.getOccupiedSpots() == parkingLot.PARKING_LOT_CAPACITY)
+        for (ParkingSlot parkingLot: parkingSlots) {
+            if(parkingLot.getOccupiedSpots() == parkingLot.PARKING_SLOT_CAPACITY)
                 numberOfLotsFull++;
         }
-        if(numberOfLotsFull == numberOfParkingLots)
+        if(numberOfLotsFull == numberOfParkingSlots)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOTS_ARE_FULL,"All lots are full");
     }
 
-    public int getOccupiedSpotsInAlot(ParkingLot parkingLot) {
-        return parkingLots.get(1).getOccupiedSpots();
+    public int getOccupiedSpotsInALot(ParkingSlot parkingLot) {
+        for (int i = 0; i < numberOfParkingSlots; i++) {
+            if (parkingSlots.get(i).equals(parkingLot))
+                return parkingSlots.get(i).getOccupiedSpots();
+        }
+        throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_SLOTS_LIST,"Not in the lots list");
+    }
+
+    public void unParkVehicle(Vehicle vehicle, ParkingSlot parkingLot) {
+        parkingSlots.get(1).unParkVehicle(vehicle);
     }
 }

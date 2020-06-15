@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class ParkingLotTest {
 
-    ParkingLot parkingLot = new ParkingLot(5);
+    ParkingSlot parkingLot = new ParkingSlot(5);
 
     @Test
     public void givenVehicleNumberToPark_whenParked_shouldReturnTrue() {

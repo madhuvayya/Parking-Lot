@@ -2,9 +2,9 @@ package com.parkinglot;
 
 import java.util.*;
 
-public class ParkingLot {
+public class ParkingSlot {
 
-    public final int PARKING_LOT_CAPACITY;
+    public final int PARKING_SLOT_CAPACITY;
     Map<Vehicle,ParkedDetails> vehicleParkedDetailsMap;
     List<ParkedDetails> parkedDetailsList;
     boolean[] spots;
@@ -12,12 +12,12 @@ public class ParkingLot {
     ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
 
-    public ParkingLot(int parkingLotCapacity) {
-        this.PARKING_LOT_CAPACITY = parkingLotCapacity;
+    public ParkingSlot(int parkingLotCapacity) {
+        this.PARKING_SLOT_CAPACITY = parkingLotCapacity;
         vehicleParkedDetailsMap = new HashMap<>();
         parkedDetailsList = new ArrayList<>();
-        spots = new boolean[PARKING_LOT_CAPACITY];
-        for(int i=0; i < PARKING_LOT_CAPACITY;i++){
+        spots = new boolean[PARKING_SLOT_CAPACITY];
+        for(int i = 0; i < PARKING_SLOT_CAPACITY; i++){
             spots[i] = false;
         }
     }
@@ -25,7 +25,7 @@ public class ParkingLot {
     public void parkVehicle(Vehicle vehicle,Driver driver) {
         if(vehicle == null && driver == null)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_NULL,"Entered null");
-        if (parkedDetailsList.size() == PARKING_LOT_CAPACITY)
+        if (parkedDetailsList.size() == PARKING_SLOT_CAPACITY)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
         if(vehicleParkedDetailsMap.containsKey(vehicle))
@@ -36,7 +36,7 @@ public class ParkingLot {
 
     private void vehicleDistribution(Vehicle vehicle, Driver driver) {
         int spot = 0;
-        for(int i = 0; i < PARKING_LOT_CAPACITY ;i++){
+        for(int i = 0; i < PARKING_SLOT_CAPACITY; i++){
             if(!spots[i]) {
                 spots[i] = true;
                 spot = i+1;
@@ -63,7 +63,7 @@ public class ParkingLot {
     }
 
     private void isFull() {
-        if (vehicleParkedDetailsMap.size() == PARKING_LOT_CAPACITY) {
+        if (vehicleParkedDetailsMap.size() == PARKING_SLOT_CAPACITY) {
             parkingLotOwner.full(true);
             airportSecurity.full(true);
         }
@@ -77,7 +77,7 @@ public class ParkingLot {
                                                 "Not in the parked list");
         this.setParkedSpot(vehicle);
         vehicleParkedDetailsMap.remove(vehicle);
-        parkingLotOwner.availableSpace(PARKING_LOT_CAPACITY - vehicleParkedDetailsMap.size());
+        parkingLotOwner.availableSpace(PARKING_SLOT_CAPACITY - vehicleParkedDetailsMap.size());
     }
 
     public int getParkedSpot(Vehicle vehicle) {
