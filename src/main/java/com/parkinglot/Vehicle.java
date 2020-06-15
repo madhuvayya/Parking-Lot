@@ -1,19 +1,28 @@
 package com.parkinglot;
 
+import java.util.Objects;
+
 public class Vehicle {
     private final String vehicleNumber;
-    private final Driver driver;
 
-    public Vehicle(String vehicleNumber,Driver driver) {
+    public Vehicle(String vehicleNumber) {
         this.vehicleNumber = vehicleNumber;
-        this.driver = driver;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return Objects.equals(vehicleNumber, vehicle.vehicleNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vehicleNumber);
     }
 
     public String getVehicleNumber() {
         return vehicleNumber;
-    }
-
-    public Driver getDriver() {
-        return driver;
     }
 }
