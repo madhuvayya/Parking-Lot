@@ -92,4 +92,11 @@ public class ParkingLotService {
     public int getNumberOfVehiclesInParkingLot(){
         return this.getListOfVehiclesInParkingLot().size();
     }
+
+    public List<Vehicle> getAllVehiclesBasedOnColor(Vehicle.VehicleColor color) {
+        List<Vehicle> listOfVehiclesInParkingLot = this.getListOfVehiclesInParkingLot();
+        return listOfVehiclesInParkingLot.stream()
+                .filter(vehicle -> vehicle.getVehicleColor().equals(color))
+                .collect(Collectors.toList());
+    }
 }

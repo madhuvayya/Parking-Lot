@@ -15,7 +15,9 @@ public class Vehicle {
 
     enum VehicleColor{
         WHITE,
-        BLACK
+        BLACK,
+        YELLOW,
+        RED
     }
 
     enum VehicleBrand{

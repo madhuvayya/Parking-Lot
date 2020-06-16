@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ParkingLotServiceTest {
@@ -22,9 +23,9 @@ public class ParkingLotServiceTest {
         vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
         vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK);
         vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.YELLOW);
         vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.RED);
         vehicle7 = new Vehicle("KA42HM4651", Vehicle.VehicleSize.LARGE, Vehicle.VehicleColor.WHITE);
     }
 
@@ -221,5 +222,23 @@ public class ParkingLotServiceTest {
         parkingLotService.parkVehicle(vehicle7, Driver.ABLED);
         ParkingSlot parkedSlot = parkingLotService.getParkedSlot(vehicle7);
         Assert.assertEquals(parkingSlot2,parkedSlot);
+    }
+
+    @Test
+    public void givenVehicleNumbersToPark_whenWantWhiteColorVehicles_shouldReturnListOfVehicles() {
+        ParkingSlot parkingSlot1 = new ParkingSlot(2);
+        ParkingSlot parkingSlot2 = new ParkingSlot(5);
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        parkingSlots.add(parkingSlot1);
+        parkingSlots.add(parkingSlot2);
+        ParkingLotService parkingLotService = new ParkingLotService(parkingSlots);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        List<Vehicle> vehicleList = Arrays.asList(vehicle1,vehicle3,vehicle5);
+        List<Vehicle> allVehiclesBasedOnColor = parkingLotService.getAllVehiclesBasedOnColor(Vehicle.VehicleColor.WHITE);
+        Assert.assertEquals(vehicleList,allVehiclesBasedOnColor);
     }
 }
