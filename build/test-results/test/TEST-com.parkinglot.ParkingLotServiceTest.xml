@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.parkinglot.ParkingLotServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-06-15T06:14:34" hostname="MADHU" time="0.011">
-  <properties/>
-  <testcase name="givenVehicleNumberToUnPark_whenUnParked_shouldReturnOccupiedSpots" classname="com.parkinglot.ParkingLotServiceTest" time="0.011"/>
-  <system-out><![CDATA[Available spaces:5
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

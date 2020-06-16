@@ -4,28 +4,23 @@ import java.util.*;
 
 public class ParkingSlot {
 
-    public final int PARKING_SLOT_CAPACITY;
+    public final int parkingSlotCapacity;
     Map<Vehicle,ParkedDetails> vehicleParkedDetailsMap;
     List<ParkedDetails> parkedDetailsList;
     boolean[] spots;
 
-    ParkingLotOwner parkingLotOwner= new ParkingLotOwner();
-    AirportSecurity airportSecurity = new AirportSecurity();
-
     public ParkingSlot(int parkingLotCapacity) {
-        this.PARKING_SLOT_CAPACITY = parkingLotCapacity;
+        this.parkingSlotCapacity = parkingLotCapacity;
         vehicleParkedDetailsMap = new HashMap<>();
         parkedDetailsList = new ArrayList<>();
-        spots = new boolean[PARKING_SLOT_CAPACITY];
-        for(int i = 0; i < PARKING_SLOT_CAPACITY; i++){
+        spots = new boolean[parkingSlotCapacity];
+        for(int i = 0; i < parkingSlotCapacity; i++){
             spots[i] = false;
         }
     }
 
     public void parkVehicle(Vehicle vehicle,Driver driver) {
-        if(vehicle == null && driver == null)
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_NULL,"Entered null");
-        if (parkedDetailsList.size() == PARKING_SLOT_CAPACITY)
+        if (vehicleParkedDetailsMap.size() == parkingSlotCapacity)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
         if(vehicleParkedDetailsMap.containsKey(vehicle))
@@ -36,7 +31,7 @@ public class ParkingSlot {
 
     private void vehicleDistribution(Vehicle vehicle, Driver driver) {
         int spot = 0;
-        for(int i = 0; i < PARKING_SLOT_CAPACITY; i++){
+        for(int i = 0; i < parkingSlotCapacity; i++){
             if(!spots[i]) {
                 spots[i] = true;
                 spot = i+1;
@@ -48,7 +43,7 @@ public class ParkingSlot {
         parkedDetailsList.add(parkedDetails);
         int swapSpot = 0;
         if(driver.equals(Driver.DISABLED)) {
-            for (int i = 0; i < parkedDetailsList.size(); i++) {
+            for (int i = 0; i < vehicleParkedDetailsMap.size(); i++) {
                 if (parkedDetailsList.get(i).getDriver().equals(Driver.ABLED)) {
                     swapSpot = i+1;
                     break;
@@ -59,25 +54,14 @@ public class ParkingSlot {
             Collections.swap(parkedDetailsList, swapSpot-1, spot-1);
         }
         vehicleParkedDetailsMap.put(vehicle,parkedDetails);
-        this.isFull();
-    }
-
-    private void isFull() {
-        if (vehicleParkedDetailsMap.size() == PARKING_SLOT_CAPACITY) {
-            parkingLotOwner.full(true);
-            airportSecurity.full(true);
-        }
     }
 
     public void unParkVehicle(Vehicle vehicle) {
-        if(vehicle == null)
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_NULL,"Entered null");
         if(!vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
                                                 "Not in the parked list");
         this.setParkedSpot(vehicle);
         vehicleParkedDetailsMap.remove(vehicle);
-        parkingLotOwner.availableSpace(PARKING_SLOT_CAPACITY - vehicleParkedDetailsMap.size());
     }
 
     public int getParkedSpot(Vehicle vehicle) {

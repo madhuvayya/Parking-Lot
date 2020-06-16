@@ -1,12 +1,31 @@
 package com.parkinglot;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class Vehicle {
-    private final String vehicleNumber;
 
-    public Vehicle(String vehicleNumber) {
+    private final VehicleSize vehicleSize;
+    private final String vehicleNumber;
+    private final VehicleColor vehicleColor;
+
+    public VehicleColor getVehicleColor() {
+        return vehicleColor;
+    }
+
+    enum VehicleSize {
+        SMALL
+    }
+
+    enum VehicleColor{
+        White
+    }
+
+
+    public Vehicle(String vehicleNumber, VehicleSize vehicleSize, VehicleColor vehicleColor) {
         this.vehicleNumber = vehicleNumber;
+        this.vehicleSize = vehicleSize;
+        this.vehicleColor = vehicleColor;
     }
 
     @Override
@@ -24,5 +43,9 @@ public class Vehicle {
 
     public String getVehicleNumber() {
         return vehicleNumber;
+    }
+
+    public VehicleSize getVehicleSize() {
+        return vehicleSize;
     }
 }
