@@ -1,6 +1,5 @@
 package com.parkinglot;
 
-import java.awt.*;
 import java.util.Objects;
 
 public class Vehicle {
@@ -9,16 +8,18 @@ public class Vehicle {
     private final String vehicleNumber;
     private final VehicleColor vehicleColor;
 
-    public VehicleColor getVehicleColor() {
-        return vehicleColor;
-    }
-
     enum VehicleSize {
-        SMALL
+        SMALL,
+        LARGE
     }
 
     enum VehicleColor{
-        White
+        WHITE,
+        BLACK
+    }
+
+    enum VehicleBrand{
+
     }
 
 
@@ -33,12 +34,14 @@ public class Vehicle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(vehicleNumber, vehicle.vehicleNumber);
+        return vehicleSize == vehicle.vehicleSize &&
+                Objects.equals(vehicleNumber, vehicle.vehicleNumber) &&
+                vehicleColor == vehicle.vehicleColor;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vehicleNumber);
+        return Objects.hash(vehicleSize, vehicleNumber, vehicleColor);
     }
 
     public String getVehicleNumber() {
@@ -47,5 +50,9 @@ public class Vehicle {
 
     public VehicleSize getVehicleSize() {
         return vehicleSize;
+    }
+
+    public VehicleColor getVehicleColor() {
+        return vehicleColor;
     }
 }

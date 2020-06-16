@@ -17,45 +17,43 @@ public class ParkingSlotTest {
     @Before
     public void setUp() throws Exception {
         parkingSlot = new ParkingSlot(5);
-        Vehicle vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL);
-        Vehicle vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL);
-        Vehicle vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL);
-        Vehicle vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL);
-        Vehicle vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL);
-        Vehicle vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL);
+        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK);
+        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
     }
 
     @Test
     public void givenVehicleNumberToPark_whenParked_shouldReturnTrue() {
-        parkingSlot.parkVehicle(, Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle1, Driver.ABLED);
         int occupiedSpots = parkingSlot.getOccupiedSpots();
         Assert.assertEquals(1,occupiedSpots);
     }
 
     @Test
     public void givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked() {
-        parkingSlot.parkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL),Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
         int numberOfVehicles = parkingSlot.getOccupiedSpots();
-        Assert.assertEquals(2,numberOfVehicles);
+        Assert.assertEquals(1,numberOfVehicles);
     }
 
     @Test
     public void givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue() {
-        parkingSlot.parkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        Vehicle vehicle = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL);
-        parkingSlot.parkVehicle(vehicle,Driver.ABLED);
-        parkingSlot.unParkVehicle(vehicle);
+        parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
+        parkingSlot.unParkVehicle(vehicle2);
         int occupiedSpots = parkingSlot.getOccupiedSpots();
         Assert.assertEquals(1,occupiedSpots);
     }
 
     @Test
     public void givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue() {
-        parkingSlot.parkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL),Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
         try {
-            parkingSlot.unParkVehicle(new Vehicle("TA07TD8945", Vehicle.VehicleSize.SMALL));
+            parkingSlot.unParkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE));
         } catch (ParkingServiceException e) {
             Assert.assertEquals(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,e.type);
         }
@@ -63,22 +61,22 @@ public class ParkingSlotTest {
 
     @Test
     public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldNotThrowException() {
-        parkingSlot.parkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL),Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle3,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle4,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle5,Driver.ABLED);
     }
 
     @Test
     public void givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException() {
         try {
-            parkingSlot.parkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-            parkingSlot.parkVehicle(new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-            parkingSlot.parkVehicle(new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-            parkingSlot.parkVehicle(new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-            parkingSlot.parkVehicle(new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL),Driver.ABLED);
-            parkingSlot.parkVehicle(new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL),Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle3,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle4,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle5,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle6,Driver.ABLED);
         } catch (ParkingServiceException e){
             Assert.assertEquals(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,e.type);
         }
@@ -87,9 +85,8 @@ public class ParkingSlotTest {
     @Test
     public void givenSameVehicleNumberToPark_whenSameNumberEntered_shouldThrowException() {
         try {
-            Vehicle vehicle = new Vehicle("TA07EC3633");
-            parkingSlot.parkVehicle(vehicle,Driver.ABLED);
-            parkingSlot.parkVehicle(vehicle,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
+            parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
         } catch (ParkingServiceException e) {
             Assert.assertEquals(ParkingServiceException.ExceptionType.EXISTING,e.type);
         }
@@ -97,11 +94,8 @@ public class ParkingSlotTest {
 
     @Test
     public void givenVehicleNumber_whenFound_shouldReturnParkedSpot() {
-        Vehicle vehicle1 = new Vehicle("TA07EC3633");
         parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
-        Vehicle vehicle2 = new Vehicle("AP24AC7684");
         parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
-        Vehicle vehicle3 = new Vehicle("TN11WA4563");
         parkingSlot.parkVehicle(vehicle3,Driver.ABLED);
         int parkedSpot = parkingSlot.getParkedSpot(vehicle2);
         Assert.assertEquals(2,parkedSpot);
@@ -109,31 +103,28 @@ public class ParkingSlotTest {
 
     @Test
     public void givenVehicleNumbersToUnPark_whenUnPark_shouldReturnParkedTime() {
-        parkingSlot.parkVehicle(new Vehicle("TS08CV5421"),Driver.ABLED);
-        long parkedTime = parkingSlot.getParkedTime(new Vehicle("TS08CV5421"));
+        parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
+        long parkedTime = parkingSlot.getParkedTime(vehicle1);
         Assert.assertEquals(0,parkedTime);
     }
 
     @Test
     public void givenVehicleNumbersToPark_whenDriverDisabledPerson_shouldParkInFirstSpot() {
-        Vehicle vehicle1 = new Vehicle("TN11WA4563");
         parkingSlot.parkVehicle(vehicle1, Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("KA12TH4651"),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TS35TV7684"),Driver.ABLED);
-        Vehicle vehicle = new Vehicle("TS08CV5421");
-        parkingSlot.parkVehicle(vehicle, Driver.DISABLED);
+        parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle3,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle4, Driver.DISABLED);
         Assert.assertEquals(4, parkingSlot.getParkedSpot(vehicle1));
     }
 
     @Test
     public void givenVehicleNumbersToPark_whenDriverSecondDisabledPerson_shouldParkInSecondSpot() {
-        Vehicle vehicle1 = new Vehicle("TN11WA4563");
         parkingSlot.parkVehicle(vehicle1, Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("KA12TH4651"),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TS35TV7684"),Driver.ABLED);
-        parkingSlot.parkVehicle(new Vehicle("TS08CV5421"), Driver.DISABLED);
-        parkingSlot.parkVehicle(new Vehicle("TS23CV7894"), Driver.DISABLED);
-        Assert.assertEquals(2, parkingSlot.getParkedSpot(new Vehicle("TS23CV7894")));
+        parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle3,Driver.ABLED);
+        parkingSlot.parkVehicle(vehicle4, Driver.DISABLED);
+        parkingSlot.parkVehicle(vehicle5, Driver.DISABLED);
+        Assert.assertEquals(5, parkingSlot.getParkedSpot(vehicle2));
     }
 
 }
