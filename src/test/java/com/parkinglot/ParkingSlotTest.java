@@ -13,16 +13,25 @@ public class ParkingSlotTest {
     Vehicle vehicle4;
     Vehicle vehicle5;
     Vehicle vehicle6;
+    Vehicle vehicle7;
 
     @Before
     public void setUp() throws Exception {
         parkingSlot = new ParkingSlot(5);
-        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK);
-        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
+        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK,
+                Vehicle.VehicleBrand.BMW);
+        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.YELLOW,
+                Vehicle.VehicleBrand.BMW);
+        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.RED,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle7 = new Vehicle("KA42HM4651", Vehicle.VehicleSize.LARGE, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.BMW);
     }
 
     @Test
@@ -53,7 +62,8 @@ public class ParkingSlotTest {
         parkingSlot.parkVehicle(vehicle1,Driver.ABLED);
         parkingSlot.parkVehicle(vehicle2,Driver.ABLED);
         try {
-            parkingSlot.unParkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE));
+            parkingSlot.unParkVehicle(new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL,
+                    Vehicle.VehicleColor.WHITE, Vehicle.VehicleBrand.TOYOTA));
         } catch (ParkingServiceException e) {
             Assert.assertEquals(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,e.type);
         }

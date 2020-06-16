@@ -20,13 +20,20 @@ public class ParkingLotServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK);
-        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.YELLOW);
-        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE);
-        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.RED);
-        vehicle7 = new Vehicle("KA42HM4651", Vehicle.VehicleSize.LARGE, Vehicle.VehicleColor.WHITE);
+        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK,
+                Vehicle.VehicleBrand.BMW);
+        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.YELLOW,
+                Vehicle.VehicleBrand.BMW);
+        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.RED,
+                Vehicle.VehicleBrand.TOYOTA);
+        vehicle7 = new Vehicle("KA42HM4651", Vehicle.VehicleSize.LARGE, Vehicle.VehicleColor.WHITE,
+                Vehicle.VehicleBrand.BMW);
     }
 
     @Test
@@ -238,7 +245,25 @@ public class ParkingLotServiceTest {
         parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
         parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
         List<Vehicle> vehicleList = Arrays.asList(vehicle1,vehicle3,vehicle5);
-        List<Vehicle> allVehiclesBasedOnColor = parkingLotService.getAllVehiclesBasedOnColor(Vehicle.VehicleColor.WHITE);
+        List<Vehicle> allVehiclesBasedOnColor = parkingLotService.getAllVehiclesBasedOnProperty(Vehicle.VehicleColor.WHITE);
         Assert.assertEquals(vehicleList,allVehiclesBasedOnColor);
+    }
+
+    @Test
+    public void givenVehicleNumbersToPark_whenWantToyotaVehicles_shouldReturnListOfVehicles() {
+        ParkingSlot parkingSlot1 = new ParkingSlot(2);
+        ParkingSlot parkingSlot2 = new ParkingSlot(5);
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        parkingSlots.add(parkingSlot1);
+        parkingSlots.add(parkingSlot2);
+        ParkingLotService parkingLotService = new ParkingLotService(parkingSlots);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        List<Vehicle> vehicleList = Arrays.asList(vehicle1,vehicle3,vehicle5);
+        List<Vehicle> vehicleLocations = parkingLotService.getVehicleLocations(Vehicle.VehicleBrand.TOYOTA);
+        Assert.assertEquals(vehicleList,vehicleLocations);
     }
 }

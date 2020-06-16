@@ -7,6 +7,7 @@ public class Vehicle {
     private final VehicleSize vehicleSize;
     private final String vehicleNumber;
     private final VehicleColor vehicleColor;
+    private final VehicleBrand vehicleBrand;
 
     enum VehicleSize {
         SMALL,
@@ -21,14 +22,16 @@ public class Vehicle {
     }
 
     enum VehicleBrand{
-
+        TOYOTA,
+        BMW
     }
 
 
-    public Vehicle(String vehicleNumber, VehicleSize vehicleSize, VehicleColor vehicleColor) {
+    public Vehicle(String vehicleNumber, VehicleSize vehicleSize, VehicleColor vehicleColor,VehicleBrand vehicleBrand) {
         this.vehicleNumber = vehicleNumber;
         this.vehicleSize = vehicleSize;
         this.vehicleColor = vehicleColor;
+        this.vehicleBrand = vehicleBrand;
     }
 
     @Override
@@ -56,5 +59,9 @@ public class Vehicle {
 
     public VehicleColor getVehicleColor() {
         return vehicleColor;
+    }
+
+    public VehicleBrand getVehicleBrand() {
+        return vehicleBrand;
     }
 }

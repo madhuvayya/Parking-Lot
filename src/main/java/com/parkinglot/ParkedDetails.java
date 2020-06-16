@@ -50,4 +50,5 @@ public class ParkedDetails {
     public Driver getDriver() {
         return driver;
     }
+
 }

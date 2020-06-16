@@ -2,7 +2,6 @@ package com.parkinglot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ParkingLotService {
@@ -81,7 +80,6 @@ public class ParkingLotService {
 
     private List<Vehicle> getListOfVehiclesInParkingLot() {
         for(int i = 0;i<numberOfParkingSlots;i++){
-            Set<Vehicle> vehicles = parkingSlots.get(i).vehicleParkedDetailsMap.keySet();
             List<ParkedDetails> parkedDetailsList = parkingSlots.get(i).parkedDetailsList;
             List<Vehicle> collect = parkedDetailsList.stream().map(ParkedDetails::getVehicle).collect(Collectors.toList());
             totalVehicles.addAll(collect);
@@ -93,10 +91,17 @@ public class ParkingLotService {
         return this.getListOfVehiclesInParkingLot().size();
     }
 
-    public List<Vehicle> getAllVehiclesBasedOnColor(Vehicle.VehicleColor color) {
+    public List<Vehicle> getAllVehiclesBasedOnProperty(Vehicle.VehicleColor color) {
         List<Vehicle> listOfVehiclesInParkingLot = this.getListOfVehiclesInParkingLot();
         return listOfVehiclesInParkingLot.stream()
                 .filter(vehicle -> vehicle.getVehicleColor().equals(color))
+                .collect(Collectors.toList());
+    }
+
+    public List<Vehicle> getVehicleLocations(Vehicle.VehicleBrand vehicleBrand) {
+        List<Vehicle> listOfVehiclesInParkingLot = this.getListOfVehiclesInParkingLot();
+        return listOfVehiclesInParkingLot.stream()
+                .filter(vehicle -> vehicle.getVehicleBrand().equals(vehicleBrand))
                 .collect(Collectors.toList());
     }
 }
