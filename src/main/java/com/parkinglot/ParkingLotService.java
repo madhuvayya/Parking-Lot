@@ -80,12 +80,10 @@ public class ParkingLotService {
     }
 
     private List<Vehicle> getListOfVehiclesInParkingLot() {
-        for(int i = 0;i<numberOfParkingSlots;i++){
-            Collection<ParkedDetails> parkedDetailsList = parkingSlots.get(i).vehicleParkedDetailsMap.values();
-            List<Vehicle> collect = parkedDetailsList.stream().map(ParkedDetails::getVehicle).collect(Collectors.toList());
-            totalVehicles.addAll(collect);
-        }
-        return totalVehicles;
+          totalVehicles = this.getAllParkedDetails().stream()
+                  .map(ParkedDetails::getVehicle)
+                  .collect(Collectors.toList());
+          return totalVehicles;
     }
 
     public int getNumberOfVehiclesInParkingLot(){
