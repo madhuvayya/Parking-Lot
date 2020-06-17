@@ -125,7 +125,7 @@ public class ParkingLot {
                 .collect(Collectors.toList());
     }
 
-    public List<Vehicle> getAllVehiclesBasedTime(long duration) {
+    public List<Vehicle> getAllVehiclesBasedOnTime(long duration) {
         return this.getAllParkedDetails().stream()
                 .filter(parkedDetails -> (parkedDetails.getParkedTime() - System.currentTimeMillis()) * 0.000016667 <= duration)
                 .map(ParkedDetails::getVehicle)
@@ -138,6 +138,12 @@ public class ParkingLot {
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleSize().equals(Vehicle.VehicleProperty.SMALL))
                 .filter(parkedDetails -> parkedDetails.getDriver().equals(Driver.DISABLED))
                 .map(ParkedDetails::getSpot)
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getAllVehicleNumbers() {
+        return this.getAllParkedDetails().stream()
+                .map(parkedDetails -> parkedDetails.getVehicle().getVehicleNumber())
                 .collect(Collectors.toList());
     }
 }

@@ -292,7 +292,7 @@ public class ParkingLotTest {
         parkingLot.parkVehicle(vehicle4, Driver.ABLED,attendant2);
         parkingLot.parkVehicle(vehicle5, Driver.ABLED,attendant1);
         long duration = 30;
-        List<Vehicle> vehicleList = parkingLot.getAllVehiclesBasedTime(duration);
+        List<Vehicle> vehicleList = parkingLot.getAllVehiclesBasedOnTime(duration);
         Assert.assertEquals(5,vehicleList.size());
     }
 
@@ -316,4 +316,22 @@ public class ParkingLotTest {
         List<Integer> vehiclesInASlot = parkingLot.getVehiclesInASlot(parkingSlot2);
         Assert.assertEquals(1,vehiclesInASlot.size());
     }
+
+    @Test
+    public void givenVehicleNumbersToPark_whenWantVehiclesNumbersParkedInLot_shouldReturnListOfVehicleNumbers() {
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        parkingSlots.add(parkingSlot1);
+        parkingSlots.add(parkingSlot2);
+        ParkingLot parkingLot = new ParkingLot(parkingSlots);
+        parkingLot.parkVehicle(vehicle1, Driver.ABLED,attendant1);
+        parkingLot.parkVehicle(vehicle2, Driver.ABLED,attendant2);
+        parkingLot.parkVehicle(vehicle3, Driver.DISABLED,attendant1);
+        parkingLot.parkVehicle(vehicle4, Driver.ABLED,attendant2);
+        parkingLot.parkVehicle(vehicle5, Driver.ABLED,attendant1);
+        List<String> vehicleNumbers = Arrays.asList("TA07EC3633","AP24AC7684","TN11WA4563","KA12TH4651","TS35TV7684");
+        List<String> allVehicleNumbers = parkingLot.getAllVehicleNumbers();
+        boolean containsAll = vehicleNumbers.containsAll(allVehicleNumbers);
+        Assert.assertTrue(containsAll);
+    }
+
 }
