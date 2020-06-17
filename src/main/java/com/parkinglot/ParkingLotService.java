@@ -79,7 +79,7 @@ public class ParkingLotService {
         return parkingSlot.parkingSlotCapacity - parkingSlot.vehicleParkedDetailsMap.size();
     }
 
-    private List<Vehicle> getListOfVehiclesInParkingLot() {
+    private List<Vehicle> getListOfVehiclesInParkingLots() {
           totalVehicles = this.getAllParkedDetails().stream()
                   .map(ParkedDetails::getVehicle)
                   .collect(Collectors.toList());
@@ -87,7 +87,7 @@ public class ParkingLotService {
     }
 
     public int getNumberOfVehiclesInParkingLot(){
-        return this.getListOfVehiclesInParkingLot().size();
+        return this.getListOfVehiclesInParkingLots().size();
     }
 
     public List<ParkedDetails> getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty property) {
@@ -110,5 +110,11 @@ public class ParkingLotService {
             parkedDetailsList.addAll(parkedDetailsListInASlot);
         }
         return parkedDetailsList;
+    }
+
+    public List<ParkedDetails> getAllVehiclesBasedOnBrand(Vehicle.VehicleProperty property) {
+        return this.getAllParkedDetails().stream()
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(property))
+                .collect(Collectors.toList());
     }
 }

@@ -36,7 +36,8 @@ public class ParkingSlot {
                 break;
             }
         }
-        ParkedDetails parkedDetails = new ParkedDetails(vehicle,driver,attendant,parkingSlot,spot, System.currentTimeMillis());
+        ParkedDetails parkedDetails = new ParkedDetails(vehicle,driver,attendant,parkingSlot,
+                spot, System.currentTimeMillis());
         vehicleParkedDetailsMap.put(vehicle,parkedDetails);
     }
 

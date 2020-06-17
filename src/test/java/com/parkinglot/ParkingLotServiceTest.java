@@ -269,4 +269,21 @@ public class ParkingLotServiceTest {
         Assert.assertEquals("attendant2",vehicleLocations.get(0).getAttendant().getName());
     }
 
+    @Test
+    public void givenVehicleNumbersToPark_whenWantToyotaVehicles_shouldReturnListBMWVehicles() {
+        ParkingSlot parkingSlot1 = new ParkingSlot(2);
+        ParkingSlot parkingSlot2 = new ParkingSlot(5);
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        parkingSlots.add(parkingSlot1);
+        parkingSlots.add(parkingSlot2);
+        ParkingLotService parkingLotService = new ParkingLotService(parkingSlots);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
+        List<ParkedDetails> vehicleLocations = parkingLotService.getAllVehiclesBasedOnBrand(Vehicle.VehicleProperty.BMW);
+        Assert.assertEquals(2,vehicleLocations.size());
+    }
+
 }
