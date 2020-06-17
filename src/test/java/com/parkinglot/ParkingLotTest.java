@@ -296,4 +296,24 @@ public class ParkingLotTest {
         Assert.assertEquals(5,vehicleList.size());
     }
 
+    @Test
+    public void givenParingSlot_whenWantVehiclesParkedInASlot_shouldReturnListOfVehicles() {
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        parkingSlots.add(parkingSlot1);
+        parkingSlots.add(parkingSlot2);
+        ParkingLot parkingLot = new ParkingLot(parkingSlots);
+        Vehicle vehicle = new Vehicle("TS05GH6325", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.TOYOTA);
+        Vehicle vehicle2 = new Vehicle("TS06JK4612", Vehicle.VehicleProperty.LARGE, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.BMW);
+        Vehicle vehicle3 = new Vehicle("TS11GS7135", Vehicle.VehicleProperty.LARGE, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.TOYOTA);
+        parkingLot.parkVehicle(vehicle1, Driver.ABLED,attendant1);
+        parkingLot.parkVehicle(vehicle2, Driver.DISABLED,attendant2);
+        parkingLot.parkVehicle(vehicle, Driver.DISABLED,attendant1);
+        parkingLot.parkVehicle(vehicle4, Driver.ABLED,attendant2);
+        parkingLot.parkVehicle(vehicle3, Driver.DISABLED,attendant1);
+        List<Integer> vehiclesInASlot = parkingLot.getVehiclesInASlot(parkingSlot2);
+        Assert.assertEquals(1,vehiclesInASlot.size());
+    }
 }

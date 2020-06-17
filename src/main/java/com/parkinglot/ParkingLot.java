@@ -131,4 +131,13 @@ public class ParkingLot {
                 .map(ParkedDetails::getVehicle)
                 .collect(Collectors.toList());
     }
+
+    public List<Integer> getVehiclesInASlot(ParkingSlot parkingSlot) {
+        return this.getAllParkedDetails().stream()
+                .filter(parkedDetails -> parkedDetails.getParkedSlot().equals(parkingSlot))
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleSize().equals(Vehicle.VehicleProperty.SMALL))
+                .filter(parkedDetails -> parkedDetails.getDriver().equals(Driver.DISABLED))
+                .map(ParkedDetails::getSpot)
+                .collect(Collectors.toList());
+    }
 }
