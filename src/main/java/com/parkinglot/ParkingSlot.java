@@ -18,12 +18,6 @@ public class ParkingSlot {
     }
 
     public void parkVehicle(Vehicle vehicle,Driver driver,ParkingSlot parkingSlot,ParkingAttendant attendant) {
-        if (vehicleParkedDetailsMap.size() == parkingSlotCapacity)
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
-                    "Parking lot is full");
-        if(vehicleParkedDetailsMap.containsKey(vehicle))
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
-                                                "Entered vehicle number existing in the list");
         vehicleDistribution(vehicle,driver,parkingSlot,attendant);
     }
 
@@ -43,8 +37,7 @@ public class ParkingSlot {
 
     public void unParkVehicle(Vehicle vehicle) {
         if(!vehicleParkedDetailsMap.containsKey(vehicle))
-            throw new ParkingServiceException(ParkingServiceException.ExceptionType.NOT_IN_THE_PARKED_LIST,
-                                                "Not in the parked list");
+            throw new ParkingLotException(ParkingLotException.ExceptionType.NOT_IN_SLOTS_LIST, "Not in the parked list");
         this.setParkedSpot(vehicle);
         vehicleParkedDetailsMap.remove(vehicle);
     }

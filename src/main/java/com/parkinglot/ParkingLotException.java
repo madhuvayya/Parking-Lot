@@ -1,6 +1,6 @@
 package com.parkinglot;
 
-public class ParkingServiceException extends RuntimeException {
+public class ParkingLotException extends RuntimeException {
     public enum ExceptionType {
         ENTERED_NULL,
         NOT_IN_THE_PARKED_LIST,
@@ -11,7 +11,7 @@ public class ParkingServiceException extends RuntimeException {
     }
     ExceptionType type;
 
-    public ParkingServiceException(ExceptionType type,String message) {
+    public ParkingLotException(ExceptionType type, String message) {
         super(message);
         this.type = type;
     }
