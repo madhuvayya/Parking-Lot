@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.parkinglot.ParkingLotServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-06-16T05:52:19" hostname="MADHU" time="0.019">
+<testsuite name="com.parkinglot.ParkingLotServiceTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2020-06-17T04:26:40" hostname="MADHU" time="0.039">
   <properties/>
-  <testcase name="givenVehicleNumbersToPark_whenWantToyotaVehicles_shouldReturnListOfVehicles" classname="com.parkinglot.ParkingLotServiceTest" time="0.019"/>
+  <testcase name="givenVehicleNumber_whenParked_shouldReturnAvailableSpots" classname="com.parkinglot.ParkingLotServiceTest" time="0.007"/>
+  <testcase name="givenVehicleNumberToFind_whenFoundInParkingLot_shouldReturnParkingSpot" classname="com.parkinglot.ParkingLotServiceTest" time="0.001"/>
+  <testcase name="givenVehicleNumbersToPark_whenParked_shouldReturnAllVehiclesInParkingLot" classname="com.parkinglot.ParkingLotServiceTest" time="0.016"/>
+  <testcase name="givenVehicleNumbersToPark_whenWantWhiteColorVehicles_shouldReturnListOfVehicles" classname="com.parkinglot.ParkingLotServiceTest" time="0.004"/>
+  <testcase name="givenVehicleNumberToFind_whenFound_shouldReturnParkingSlot" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumberToFind_whenFound_shouldReturnParkingSpot" classname="com.parkinglot.ParkingLotServiceTest" time="0.001"/>
+  <testcase name="givenVehicleNumberToPark_whenAllParkingLotsAreFull_shouldThrowException" classname="com.parkinglot.ParkingLotServiceTest" time="0.002"/>
+  <testcase name="givenVehicleNumberToFindInSlot_whenFound_shouldReturnParkingSlot" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
+  <testcase name="givenNumberOfParkingLots_whenCreated_shouldReturnNumberOfLots" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumbersToPark_whenWantToyotaVehicles_shouldReturnListOfVehicles" classname="com.parkinglot.ParkingLotServiceTest" time="0.002"/>
+  <testcase name="givenVehicleNumbersToPark_whenVehicleIsLarge_shouldAllocateRequiredSpace" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumberToUnPark_whenUnParked_shouldReturnOccupiedSpots" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumbersToPark_whenDriverDisAbled_shouldAllocateNearestSlot" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
+  <testcase name="givenVehicleNumberToPark_whenParked_shouldReturnOccupiedSpotsInALot" classname="com.parkinglot.ParkingLotServiceTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

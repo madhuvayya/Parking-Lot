@@ -6,30 +6,28 @@ public class ParkingSlot {
 
     public final int parkingSlotCapacity;
     Map<Vehicle,ParkedDetails> vehicleParkedDetailsMap;
-    List<ParkedDetails> parkedDetailsList;
     boolean[] spots;
 
     public ParkingSlot(int parkingLotCapacity) {
         this.parkingSlotCapacity = parkingLotCapacity;
         vehicleParkedDetailsMap = new HashMap<>();
-        parkedDetailsList = new ArrayList<>();
         spots = new boolean[parkingSlotCapacity];
         for(int i = 0; i < parkingSlotCapacity; i++){
             spots[i] = false;
         }
     }
 
-    public void parkVehicle(Vehicle vehicle,Driver driver) {
+    public void parkVehicle(Vehicle vehicle,Driver driver,ParkingAttendant attendant) {
         if (vehicleParkedDetailsMap.size() == parkingSlotCapacity)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
         if(vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        vehicleDistribution(vehicle,driver);
+        vehicleDistribution(vehicle,driver,attendant);
     }
 
-    private void vehicleDistribution(Vehicle vehicle, Driver driver) {
+    private void vehicleDistribution(Vehicle vehicle, Driver driver,ParkingAttendant attendant) {
         int spot = 0;
         for(int i = 0; i < parkingSlotCapacity; i++){
             if(!spots[i]) {
@@ -39,20 +37,7 @@ public class ParkingSlot {
             }
         }
 
-        ParkedDetails parkedDetails = new ParkedDetails(vehicle,driver,spot, System.currentTimeMillis());
-        parkedDetailsList.add(parkedDetails);
-        int swapSpot = 0;
-        if(driver.equals(Driver.DISABLED)) {
-            for (int i = 0; i < vehicleParkedDetailsMap.size(); i++) {
-                if (parkedDetailsList.get(i).getDriver().equals(Driver.ABLED)) {
-                    swapSpot = i+1;
-                    break;
-                }
-            }
-            parkedDetailsList.get(swapSpot-1).setSpot(spot);
-            parkedDetailsList.get(spot-1).setSpot(swapSpot);
-            Collections.swap(parkedDetailsList, swapSpot-1, spot-1);
-        }
+        ParkedDetails parkedDetails = new ParkedDetails(vehicle,driver,attendant,getClass(),spot, System.currentTimeMillis());
         vehicleParkedDetailsMap.put(vehicle,parkedDetails);
     }
 

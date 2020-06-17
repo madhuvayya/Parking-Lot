@@ -5,15 +5,26 @@ import java.util.Objects;
 public class ParkedDetails {
 
     private final Vehicle vehicle;
-    private final long parkedTime;
-    private final Driver driver;
+    private ParkingAttendant attendant;
+    private ParkingSlot parkedSlot;
+    private long parkedTime;
+    private Driver driver;
+    private Class<? extends ParkingSlot> parkingSlot;
     private int spot;
 
-    public ParkedDetails(Vehicle vehicle,Driver driver,int spot, long parkedTime) {
+    public ParkedDetails(Vehicle vehicle, Driver driver,ParkingAttendant attendant,Class<? extends ParkingSlot> parkingSlot, int spot, long parkedTime) {
         this.spot = spot;
         this.parkedTime = parkedTime;
         this.vehicle = vehicle;
         this.driver = driver;
+        this.parkingSlot = parkingSlot;
+        this.attendant = attendant;
+    }
+
+    public ParkedDetails(Vehicle vehicle, ParkingSlot parkedSlot, int parkedSpot) {
+        this.parkedSlot = parkedSlot;
+        this.spot = parkedSpot;
+        this.vehicle = vehicle;
     }
 
     @Override
@@ -51,4 +62,11 @@ public class ParkedDetails {
         return driver;
     }
 
+    public ParkingSlot getParkedSlot() {
+        return parkedSlot;
+    }
+
+    public ParkingAttendant getAttendant() {
+        return attendant;
+    }
 }

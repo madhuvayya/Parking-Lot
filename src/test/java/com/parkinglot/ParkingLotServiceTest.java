@@ -4,9 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ParkingLotServiceTest {
 
@@ -19,21 +18,21 @@ public class ParkingLotServiceTest {
     Vehicle vehicle7;
 
     @Before
-    public void setUp() throws Exception {
-        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
-                Vehicle.VehicleBrand.TOYOTA);
-        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.BLACK,
-                Vehicle.VehicleBrand.BMW);
-        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
-                Vehicle.VehicleBrand.TOYOTA);
-        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.YELLOW,
-                Vehicle.VehicleBrand.BMW);
-        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.WHITE,
-                Vehicle.VehicleBrand.TOYOTA);
-        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleSize.SMALL, Vehicle.VehicleColor.RED,
-                Vehicle.VehicleBrand.TOYOTA);
-        vehicle7 = new Vehicle("KA42HM4651", Vehicle.VehicleSize.LARGE, Vehicle.VehicleColor.WHITE,
-                Vehicle.VehicleBrand.BMW);
+    public void setUp(){
+        vehicle1 = new Vehicle("TA07EC3633", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.TOYOTA);
+        vehicle2 = new Vehicle("AP24AC7684", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.BLUE,
+                Vehicle.VehicleProperty.BMW);
+        vehicle3 = new Vehicle("TN11WA4563", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.TOYOTA);
+        vehicle4 = new Vehicle("KA12TH4651", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.BLUE,
+                Vehicle.VehicleProperty.TOYOTA);
+        vehicle5 = new Vehicle("TS35TV7684", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.BMW);
+        vehicle6 = new Vehicle("TS08CV5421", Vehicle.VehicleProperty.SMALL, Vehicle.VehicleProperty.RED,
+                Vehicle.VehicleProperty.TOYOTA);
+        vehicle7 = new Vehicle("KA42HM4651", Vehicle.VehicleProperty.LARGE, Vehicle.VehicleProperty.WHITE,
+                Vehicle.VehicleProperty.BMW);
     }
 
     @Test
@@ -56,9 +55,9 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
         int occupiedSpotsInALot = parkingLotService.getOccupiedSpotsInASlot(parkingSlot2);
         Assert.assertEquals(2,occupiedSpotsInALot);
     }
@@ -72,11 +71,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
         try {
-            parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-            parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-            parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-            parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-            parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+            parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+            parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+            parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+            parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+            parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         } catch(ParkingServiceException e){
             Assert.assertEquals(ParkingServiceException.ExceptionType.PARKING_LOTS_ARE_FULL,e.type);
         }
@@ -90,11 +89,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         parkingLotService.unParkVehicle(vehicle4);
         int occupiedSpotsInALot = parkingLotService.getOccupiedSpotsInASlot(parkingSlot2);
         Assert.assertEquals(2,occupiedSpotsInALot);
@@ -108,11 +107,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         ParkingSlot slot = parkingLotService.getParkedSlot( vehicle5);
         Assert.assertEquals(parkingSlot2,slot);
     }
@@ -125,11 +124,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         ParkingSlot slot = parkingLotService.getParkedSlot( vehicle3);
         Assert.assertNotEquals(parkingSlot2,slot);
     }
@@ -142,11 +141,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         int spot = parkingLotService.getParkedSpot( vehicle3);
         Assert.assertEquals(2,spot);
     }
@@ -159,11 +158,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         int spot = parkingLotService.getParkedSpot( vehicle5);
         Assert.assertNotEquals(1,spot);
     }
@@ -176,11 +175,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         int availableSpotsInASlot = parkingLotService.getAvailableSpotsInASlot(parkingSlot1);
         Assert.assertEquals(0,availableSpotsInASlot);
     }
@@ -193,11 +192,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         int totalVehicles = parkingLotService.getNumberOfVehiclesInParkingLot();
         Assert.assertEquals(5,totalVehicles);
     }
@@ -210,11 +209,11 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.DISABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.DISABLED,new ParkingAttendant("attendant2"));
         ParkingSlot parkedSlot = parkingLotService.getParkedSlot(vehicle4);
         Assert.assertEquals(parkingSlot1,parkedSlot);
-        Assert.assertEquals(1,parkingLotService.getParkedSpot(vehicle4));
+        Assert.assertEquals(2,parkingLotService.getParkedSpot(vehicle4));
     }
 
     @Test
@@ -225,8 +224,8 @@ public class ParkingLotServiceTest {
         parkingLotList.add(parkingSlot1);
         parkingLotList.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingLotList);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle7, Driver.ABLED);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle7, Driver.ABLED,new ParkingAttendant("attendant2"));
         ParkingSlot parkedSlot = parkingLotService.getParkedSlot(vehicle7);
         Assert.assertEquals(parkingSlot2,parkedSlot);
     }
@@ -239,14 +238,16 @@ public class ParkingLotServiceTest {
         parkingSlots.add(parkingSlot1);
         parkingSlots.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingSlots);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
-        List<Vehicle> vehicleList = Arrays.asList(vehicle1,vehicle3,vehicle5);
-        List<Vehicle> allVehiclesBasedOnColor = parkingLotService.getAllVehiclesBasedOnProperty(Vehicle.VehicleColor.WHITE);
-        Assert.assertEquals(vehicleList,allVehiclesBasedOnColor);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
+        List<ParkingSlot> vehicleSlots = Arrays.asList(parkingSlot1,parkingSlot1,parkingSlot2);
+        List<ParkedDetails> allVehiclesBasedOnColor = parkingLotService.getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty.WHITE);
+        List<ParkingSlot> vehicleSlotsList = allVehiclesBasedOnColor.stream().map(ParkedDetails::getParkedSlot).collect(Collectors.toList());
+        boolean containsAll = vehicleSlots.containsAll(vehicleSlotsList);
+        Assert.assertTrue(containsAll);
     }
 
     @Test
@@ -257,13 +258,16 @@ public class ParkingLotServiceTest {
         parkingSlots.add(parkingSlot1);
         parkingSlots.add(parkingSlot2);
         ParkingLotService parkingLotService = new ParkingLotService(parkingSlots);
-        parkingLotService.parkVehicle(vehicle1, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle2, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle3, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle4, Driver.ABLED);
-        parkingLotService.parkVehicle(vehicle5, Driver.ABLED);
-        List<Vehicle> vehicleList = Arrays.asList(vehicle1,vehicle3,vehicle5);
-        List<Vehicle> vehicleLocations = parkingLotService.getVehicleLocations(Vehicle.VehicleBrand.TOYOTA);
-        Assert.assertEquals(vehicleList,vehicleLocations);
+        parkingLotService.parkVehicle(vehicle1, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle2, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
+        parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
+        parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
+        List<ParkedDetails> vehicleLocations = parkingLotService.getVehicleLocations(Vehicle.VehicleProperty.BLUE,
+                Vehicle.VehicleProperty.TOYOTA);
+        int spot = vehicleLocations.get(0).getSpot();
+        Assert.assertEquals(2,spot);
+        Assert.assertEquals("attendant2",vehicleLocations.get(0).getAttendant().getName());
     }
+
 }

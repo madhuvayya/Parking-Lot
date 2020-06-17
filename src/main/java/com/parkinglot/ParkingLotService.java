@@ -1,6 +1,7 @@
 package com.parkinglot;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,7 @@ public class ParkingLotService {
     private final int numberOfParkingSlots;
     List<ParkingSlot> parkingSlots;
     List<Vehicle> totalVehicles = new ArrayList<>();
-    int currentSlot = 0;
+
     ParkingLotOwner parkingLotOwner = new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
     ParkingStrategy parkingStrategy = new ParkingStrategy();
@@ -23,10 +24,10 @@ public class ParkingLotService {
         return parkingSlots.size();
     }
 
-    public void parkVehicle(Vehicle vehicle,Driver driver){
+    public void parkVehicle(Vehicle vehicle,Driver driver,ParkingAttendant attendant){
         if(vehicle == null && driver == null)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.ENTERED_NULL,"Entered null");
-        parkingStrategy.parkVehicle(parkingSlots,vehicle,driver);
+        parkingStrategy.parkVehicle(parkingSlots,vehicle,driver,attendant);
         this.checkParkingSlotsFull();
     }
 
@@ -80,7 +81,7 @@ public class ParkingLotService {
 
     private List<Vehicle> getListOfVehiclesInParkingLot() {
         for(int i = 0;i<numberOfParkingSlots;i++){
-            List<ParkedDetails> parkedDetailsList = parkingSlots.get(i).parkedDetailsList;
+            Collection<ParkedDetails> parkedDetailsList = parkingSlots.get(i).vehicleParkedDetailsMap.values();
             List<Vehicle> collect = parkedDetailsList.stream().map(ParkedDetails::getVehicle).collect(Collectors.toList());
             totalVehicles.addAll(collect);
         }
@@ -91,17 +92,27 @@ public class ParkingLotService {
         return this.getListOfVehiclesInParkingLot().size();
     }
 
-    public List<Vehicle> getAllVehiclesBasedOnProperty(Vehicle.VehicleColor color) {
+    public List<ParkedDetails> getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty property) {
         List<Vehicle> listOfVehiclesInParkingLot = this.getListOfVehiclesInParkingLot();
-        return listOfVehiclesInParkingLot.stream()
-                .filter(vehicle -> vehicle.getVehicleColor().equals(color))
+        List<Vehicle> collect = listOfVehiclesInParkingLot.stream()
+                .filter(vehicle -> vehicle.getVehicleColor().equals(property))
                 .collect(Collectors.toList());
+        List<ParkedDetails> vehiclesLocation = new ArrayList<>();
+        for (Vehicle vehicle:collect) {
+            vehiclesLocation.add(new ParkedDetails(vehicle,this.getParkedSlot(vehicle),this.getParkedSpot(vehicle)));
+        }
+        return vehiclesLocation;
     }
 
-    public List<Vehicle> getVehicleLocations(Vehicle.VehicleBrand vehicleBrand) {
-        List<Vehicle> listOfVehiclesInParkingLot = this.getListOfVehiclesInParkingLot();
-        return listOfVehiclesInParkingLot.stream()
-                .filter(vehicle -> vehicle.getVehicleBrand().equals(vehicleBrand))
+    public List<ParkedDetails> getVehicleLocations(Vehicle.VehicleProperty ...properties) {
+        List<ParkedDetails> parkedDetailsList = new ArrayList<>();
+        for(int i = 0 ; i < numberOfParkingSlots ; i++){
+            Collection<ParkedDetails> parkedDetailsListInASlot = parkingSlots.get(i).vehicleParkedDetailsMap.values();
+            parkedDetailsList.addAll(parkedDetailsListInASlot);
+        }
+        return parkedDetailsList.stream()
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(properties[0]))
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(properties[1]))
                 .collect(Collectors.toList());
     }
 }

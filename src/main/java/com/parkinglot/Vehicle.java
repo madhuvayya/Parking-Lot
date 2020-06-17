@@ -4,30 +4,24 @@ import java.util.Objects;
 
 public class Vehicle {
 
-    private final VehicleSize vehicleSize;
+    private final VehicleProperty vehicleSize;
     private final String vehicleNumber;
-    private final VehicleColor vehicleColor;
-    private final VehicleBrand vehicleBrand;
+    private final VehicleProperty vehicleColor;
+    private final VehicleProperty vehicleBrand;
 
-    enum VehicleSize {
+    enum VehicleProperty {
         SMALL,
-        LARGE
-    }
-
-    enum VehicleColor{
+        LARGE,
         WHITE,
         BLACK,
-        YELLOW,
-        RED
-    }
-
-    enum VehicleBrand{
+        RED,
         TOYOTA,
-        BMW
+        BMW,
+        BLUE;
     }
 
 
-    public Vehicle(String vehicleNumber, VehicleSize vehicleSize, VehicleColor vehicleColor,VehicleBrand vehicleBrand) {
+    public Vehicle(String vehicleNumber, VehicleProperty vehicleSize, VehicleProperty vehicleColor, VehicleProperty vehicleBrand) {
         this.vehicleNumber = vehicleNumber;
         this.vehicleSize = vehicleSize;
         this.vehicleColor = vehicleColor;
@@ -53,15 +47,15 @@ public class Vehicle {
         return vehicleNumber;
     }
 
-    public VehicleSize getVehicleSize() {
+    public VehicleProperty getVehicleSize() {
         return vehicleSize;
     }
 
-    public VehicleColor getVehicleColor() {
+    public VehicleProperty getVehicleColor() {
         return vehicleColor;
     }
 
-    public VehicleBrand getVehicleBrand() {
+    public VehicleProperty getVehicleBrand() {
         return vehicleBrand;
     }
 }

@@ -4,14 +4,14 @@ import java.util.List;
 
 public class ParkingStrategy {
     private int currentSlot = 0;
-    public void parkVehicle(List<ParkingSlot> parkingSlots,Vehicle vehicle,Driver driver){
-        if(vehicle.getVehicleSize().equals(Vehicle.VehicleSize.SMALL) && driver.equals(Driver.ABLED)) {
+    public void parkVehicle(List<ParkingSlot> parkingSlots,Vehicle vehicle,Driver driver,ParkingAttendant attendant){
+        if(vehicle.getVehicleSize().equals(Vehicle.VehicleProperty.SMALL) && driver.equals(Driver.ABLED)) {
             int numberOfSlots = parkingSlots.size();
             for (int slot = 0; slot <= numberOfSlots; slot++) {
                 if (currentSlot == numberOfSlots)
                     currentSlot = 0;
                 if (parkingSlots.get(currentSlot).getOccupiedSpots() < parkingSlots.get(currentSlot).parkingSlotCapacity) {
-                    parkingSlots.get(currentSlot).parkVehicle(vehicle, driver);
+                    parkingSlots.get(currentSlot).parkVehicle(vehicle, driver,attendant);
                     currentSlot++;
                     return;
                 }
@@ -23,19 +23,19 @@ public class ParkingStrategy {
             int numberOfSlots = parkingSlots.size();
             for (int slot = 0; slot <= numberOfSlots; slot++) {
                 if (parkingSlots.get(slot).getOccupiedSpots() < parkingSlots.get(slot).parkingSlotCapacity) {
-                    parkingSlots.get(slot).parkVehicle(vehicle, driver);
+                    parkingSlots.get(slot).parkVehicle(vehicle, driver,attendant);
                     return;
                 }
             }
         }
 
-        if(vehicle.getVehicleSize().equals(Vehicle.VehicleSize.LARGE)){
+        if(vehicle.getVehicleSize().equals(Vehicle.VehicleProperty.LARGE)){
             int numberOfSlots = parkingSlots.size();
             int requiredSpots = 2;
-            for (int slot = 0; slot < numberOfSlots; slot++) {
-                int availableSpots = parkingSlots.get(slot).parkingSlotCapacity - parkingSlots.get(slot).getOccupiedSpots();
+            for (ParkingSlot parkingSlot : parkingSlots) {
+                int availableSpots = parkingSlot.parkingSlotCapacity - parkingSlot.getOccupiedSpots();
                 if (availableSpots >= requiredSpots) {
-                    parkingSlots.get(slot).parkVehicle(vehicle, driver);
+                    parkingSlot.parkVehicle(vehicle, driver,attendant);
                     return;
                 }
             }
