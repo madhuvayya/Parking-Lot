@@ -17,17 +17,17 @@ public class ParkingSlot {
         }
     }
 
-    public void parkVehicle(Vehicle vehicle,Driver driver,ParkingAttendant attendant) {
+    public void parkVehicle(Vehicle vehicle,Driver driver,ParkingSlot parkingSlot,ParkingAttendant attendant) {
         if (vehicleParkedDetailsMap.size() == parkingSlotCapacity)
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.PARKING_LOT_IS_FULL,
                     "Parking lot is full");
         if(vehicleParkedDetailsMap.containsKey(vehicle))
             throw new ParkingServiceException(ParkingServiceException.ExceptionType.EXISTING,
                                                 "Entered vehicle number existing in the list");
-        vehicleDistribution(vehicle,driver,attendant);
+        vehicleDistribution(vehicle,driver,parkingSlot,attendant);
     }
 
-    private void vehicleDistribution(Vehicle vehicle, Driver driver,ParkingAttendant attendant) {
+    private void vehicleDistribution(Vehicle vehicle, Driver driver,ParkingSlot parkingSlot,ParkingAttendant attendant) {
         int spot = 0;
         for(int i = 0; i < parkingSlotCapacity; i++){
             if(!spots[i]) {
@@ -37,7 +37,7 @@ public class ParkingSlot {
             }
         }
 
-        ParkedDetails parkedDetails = new ParkedDetails(vehicle,driver,attendant,getClass(),spot, System.currentTimeMillis());
+        ParkedDetails parkedDetails = new ParkedDetails(vehicle,driver,attendant,parkingSlot,spot, System.currentTimeMillis());
         vehicleParkedDetailsMap.put(vehicle,parkedDetails);
     }
 

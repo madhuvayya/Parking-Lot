@@ -93,26 +93,24 @@ public class ParkingLotService {
     }
 
     public List<ParkedDetails> getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty property) {
-        List<Vehicle> listOfVehiclesInParkingLot = this.getListOfVehiclesInParkingLot();
-        List<Vehicle> collect = listOfVehiclesInParkingLot.stream()
-                .filter(vehicle -> vehicle.getVehicleColor().equals(property))
+        return this.getAllParkedDetails().stream()
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(property))
                 .collect(Collectors.toList());
-        List<ParkedDetails> vehiclesLocation = new ArrayList<>();
-        for (Vehicle vehicle:collect) {
-            vehiclesLocation.add(new ParkedDetails(vehicle,this.getParkedSlot(vehicle),this.getParkedSpot(vehicle)));
-        }
-        return vehiclesLocation;
     }
 
-    public List<ParkedDetails> getVehicleLocations(Vehicle.VehicleProperty ...properties) {
+    public List<ParkedDetails> getAllVehicleBasedOnProperties(Vehicle.VehicleProperty ...properties) {
+        return this.getAllParkedDetails().stream()
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(properties[0]))
+                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(properties[1]))
+                .collect(Collectors.toList());
+    }
+
+    private List<ParkedDetails> getAllParkedDetails(){
         List<ParkedDetails> parkedDetailsList = new ArrayList<>();
         for(int i = 0 ; i < numberOfParkingSlots ; i++){
             Collection<ParkedDetails> parkedDetailsListInASlot = parkingSlots.get(i).vehicleParkedDetailsMap.values();
             parkedDetailsList.addAll(parkedDetailsListInASlot);
         }
-        return parkedDetailsList.stream()
-                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(properties[0]))
-                .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(properties[1]))
-                .collect(Collectors.toList());
+        return parkedDetailsList;
     }
 }

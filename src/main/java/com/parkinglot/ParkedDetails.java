@@ -6,18 +6,17 @@ public class ParkedDetails {
 
     private final Vehicle vehicle;
     private ParkingAttendant attendant;
-    private ParkingSlot parkedSlot;
+    private final ParkingSlot parkedSlot;
     private long parkedTime;
     private Driver driver;
-    private Class<? extends ParkingSlot> parkingSlot;
     private int spot;
 
-    public ParkedDetails(Vehicle vehicle, Driver driver,ParkingAttendant attendant,Class<? extends ParkingSlot> parkingSlot, int spot, long parkedTime) {
+    public ParkedDetails(Vehicle vehicle, Driver driver,ParkingAttendant attendant,ParkingSlot parkingSlot, int spot, long parkedTime) {
         this.spot = spot;
         this.parkedTime = parkedTime;
         this.vehicle = vehicle;
         this.driver = driver;
-        this.parkingSlot = parkingSlot;
+        this.parkedSlot = parkingSlot;
         this.attendant = attendant;
     }
 

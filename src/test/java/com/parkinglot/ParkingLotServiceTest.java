@@ -245,9 +245,8 @@ public class ParkingLotServiceTest {
         parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
         List<ParkingSlot> vehicleSlots = Arrays.asList(parkingSlot1,parkingSlot1,parkingSlot2);
         List<ParkedDetails> allVehiclesBasedOnColor = parkingLotService.getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty.WHITE);
-        List<ParkingSlot> vehicleSlotsList = allVehiclesBasedOnColor.stream().map(ParkedDetails::getParkedSlot).collect(Collectors.toList());
-        boolean containsAll = vehicleSlots.containsAll(vehicleSlotsList);
-        Assert.assertTrue(containsAll);
+        List<ParkingSlot> parkingSlotList = allVehiclesBasedOnColor.stream().map(ParkedDetails::getParkedSlot).collect(Collectors.toList());
+        Assert.assertEquals(vehicleSlots,parkingSlotList);
     }
 
     @Test
@@ -263,7 +262,7 @@ public class ParkingLotServiceTest {
         parkingLotService.parkVehicle(vehicle3, Driver.ABLED,new ParkingAttendant("attendant1"));
         parkingLotService.parkVehicle(vehicle4, Driver.ABLED,new ParkingAttendant("attendant2"));
         parkingLotService.parkVehicle(vehicle5, Driver.ABLED,new ParkingAttendant("attendant1"));
-        List<ParkedDetails> vehicleLocations = parkingLotService.getVehicleLocations(Vehicle.VehicleProperty.BLUE,
+        List<ParkedDetails> vehicleLocations = parkingLotService.getAllVehicleBasedOnProperties(Vehicle.VehicleProperty.BLUE,
                 Vehicle.VehicleProperty.TOYOTA);
         int spot = vehicleLocations.get(0).getSpot();
         Assert.assertEquals(2,spot);
