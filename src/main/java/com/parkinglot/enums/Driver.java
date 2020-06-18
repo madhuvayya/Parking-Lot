@@ -1,4 +1,4 @@
-package com.parkinglot;
+package com.parkinglot.enums;
 
 public enum Driver {
     DISABLED,

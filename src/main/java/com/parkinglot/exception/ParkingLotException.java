@@ -1,4 +1,4 @@
-package com.parkinglot;
+package com.parkinglot.exception;
 
 public class ParkingLotException extends RuntimeException {
     public enum ExceptionType {
@@ -9,7 +9,7 @@ public class ParkingLotException extends RuntimeException {
         PARKING_LOTS_ARE_FULL,
         NOT_IN_SLOTS_LIST
     }
-    ExceptionType type;
+    public ExceptionType type;
 
     public ParkingLotException(ExceptionType type, String message) {
         super(message);

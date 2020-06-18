@@ -1,10 +1,14 @@
-package com.parkinglot;
+package com.parkinglot.controller;
+
+import com.parkinglot.enums.Driver;
+import com.parkinglot.ParkingAttendant;
+import com.parkinglot.model.Vehicle;
 
 import java.util.List;
 
 public class ParkingStrategy {
     private int currentSlot = 0;
-    public void parkVehicle(List<ParkingSlot> parkingSlots,Vehicle vehicle,Driver driver,ParkingAttendant attendant){
+    public void parkVehicle(List<ParkingSlot> parkingSlots, Vehicle vehicle, Driver driver, ParkingAttendant attendant){
         if(vehicle.getVehicleSize().equals(Vehicle.VehicleProperty.SMALL) && driver.equals(Driver.ABLED)) {
             int numberOfSlots = parkingSlots.size();
             for (int slot = 0; slot <= numberOfSlots; slot++) {

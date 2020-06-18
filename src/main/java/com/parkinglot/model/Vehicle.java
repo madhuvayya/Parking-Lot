@@ -1,4 +1,4 @@
-package com.parkinglot;
+package com.parkinglot.model;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ public class Vehicle {
     private final VehicleProperty vehicleColor;
     private final VehicleProperty vehicleBrand;
 
-    enum VehicleProperty {
+    public enum VehicleProperty {
         SMALL,
         LARGE,
         WHITE,

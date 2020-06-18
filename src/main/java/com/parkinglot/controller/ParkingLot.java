@@ -1,4 +1,12 @@
-package com.parkinglot;
+package com.parkinglot.controller;
+
+import com.parkinglot.*;
+import com.parkinglot.enums.Driver;
+import com.parkinglot.exception.ParkingLotException;
+import com.parkinglot.model.ParkedDetails;
+import com.parkinglot.model.Vehicle;
+import com.parkinglot.observers.AirportSecurity;
+import com.parkinglot.observers.ParkingLotOwner;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,19 +15,22 @@ import java.util.stream.Collectors;
 
 public class ParkingLot {
 
-    private final int numberOfParkingSlots;
-    List<ParkingSlot> parkingSlots;
+    private int numberOfParkingSlots;
+    public List<ParkingSlot> parkingSlots;
 
     ParkingLotOwner parkingLotOwner = new ParkingLotOwner();
     AirportSecurity airportSecurity = new AirportSecurity();
     ParkingStrategy parkingStrategy = new ParkingStrategy();
 
-    public ParkingLot(List<ParkingSlot> parkingLots) {
-        this.parkingSlots = parkingLots;
-        this.numberOfParkingSlots = parkingLots.size();
+    public ParkingLot() {
     }
 
-    public void parkVehicle(Vehicle vehicle,Driver driver,ParkingAttendant attendant){
+    public ParkingLot(List<ParkingSlot> parkingSlots) {
+        this.parkingSlots = parkingSlots;
+        this.numberOfParkingSlots = parkingSlots.size();
+    }
+
+    public void parkVehicle(Vehicle vehicle, Driver driver, ParkingAttendant attendant){
         if(vehicle == null && driver == null)
             throw new ParkingLotException(ParkingLotException.ExceptionType.ENTERED_NULL,"Entered null");
         if(this.checkParkingSlotsFull())
@@ -38,15 +49,15 @@ public class ParkingLot {
                 numberOfSlotsFull++;
         }
         if(numberOfSlotsFull == numberOfParkingSlots) {
-            parkingLotOwner.full(true);
-            airportSecurity.full(true);
+            parkingLotOwner.fullOrNot(true);
+            airportSecurity.fullOrNot(true);
             return true;
         }
         return false;
     }
 
     public boolean checkVehicleExistenceInParking(Vehicle vehicle){
-        List<Vehicle> vehicleList = this.getAllParkedDetails().stream()
+        List<Vehicle> vehicleList = this.getAllParkedVehicleDetails().stream()
                 .map(ParkedDetails::getVehicle)
                 .collect(Collectors.toList());
         return vehicleList.contains(vehicle);
@@ -86,7 +97,7 @@ public class ParkingLot {
     }
 
     private List<Vehicle> getListOfVehiclesInParkingLots() {
-          return this.getAllParkedDetails().stream()
+          return this.getAllParkedVehicleDetails().stream()
                   .map(ParkedDetails::getVehicle)
                   .collect(Collectors.toList());
     }
@@ -95,7 +106,7 @@ public class ParkingLot {
         return this.getListOfVehiclesInParkingLots().size();
     }
 
-    private List<ParkedDetails> getAllParkedDetails(){
+    private List<ParkedDetails> getAllParkedVehicleDetails(){
         List<ParkedDetails> parkedDetailsList = new ArrayList<>();
         for (ParkingSlot parkingSlot : parkingSlots) {
             Collection<ParkedDetails> parkedDetailsListInASlot = parkingSlot.vehicleParkedDetailsMap.values();
@@ -104,34 +115,34 @@ public class ParkingLot {
         return parkedDetailsList;
     }
 
-    public List<ParkedDetails> getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty property) {
-        return this.getAllParkedDetails().stream()
+    public List<ParkedDetails> getAllVehiclesBasedOnColor(Vehicle.VehicleProperty property) {
+        return this.getAllParkedVehicleDetails().stream()
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(property))
                 .collect(Collectors.toList());
     }
 
-    public List<ParkedDetails> getAllVehicleBasedOnProperties(Vehicle.VehicleProperty ...properties) {
-        return this.getAllParkedDetails().stream()
+    public List<ParkedDetails> getAllVehicleBasedOnColorBrand(Vehicle.VehicleProperty ...properties) {
+        return this.getAllParkedVehicleDetails().stream()
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(properties[0]))
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(properties[1]))
                 .collect(Collectors.toList());
     }
 
     public List<ParkedDetails> getAllVehiclesBasedOnBrand(Vehicle.VehicleProperty property) {
-        return this.getAllParkedDetails().stream()
+        return this.getAllParkedVehicleDetails().stream()
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(property))
                 .collect(Collectors.toList());
     }
 
     public List<Vehicle> getAllVehiclesBasedOnTime(long duration) {
-        return this.getAllParkedDetails().stream()
+        return this.getAllParkedVehicleDetails().stream()
                 .filter(parkedDetails -> (parkedDetails.getParkedTime() - System.currentTimeMillis()) * 0.000016667 <= duration)
                 .map(ParkedDetails::getVehicle)
                 .collect(Collectors.toList());
     }
 
     public List<Integer> getVehiclesInASlot(ParkingSlot parkingSlot) {
-        return this.getAllParkedDetails().stream()
+        return this.getAllParkedVehicleDetails().stream()
                 .filter(parkedDetails -> parkedDetails.getParkedSlot().equals(parkingSlot))
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleSize().equals(Vehicle.VehicleProperty.SMALL))
                 .filter(parkedDetails -> parkedDetails.getDriver().equals(Driver.DISABLED))
@@ -140,7 +151,7 @@ public class ParkingLot {
     }
 
     public List<String> getAllVehicleNumbers() {
-        return this.getAllParkedDetails().stream()
+        return this.getAllParkedVehicleDetails().stream()
                 .map(parkedDetails -> parkedDetails.getVehicle().getVehicleNumber())
                 .collect(Collectors.toList());
     }

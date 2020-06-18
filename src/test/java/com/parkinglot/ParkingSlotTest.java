@@ -1,5 +1,9 @@
 package com.parkinglot;
 
+import com.parkinglot.controller.ParkingSlot;
+import com.parkinglot.enums.Driver;
+import com.parkinglot.exception.ParkingLotException;
+import com.parkinglot.model.Vehicle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,8 @@
-package com.parkinglot;
+package com.parkinglot.model;
+
+import com.parkinglot.enums.Driver;
+import com.parkinglot.ParkingAttendant;
+import com.parkinglot.controller.ParkingSlot;
 
 import java.util.Objects;
 
@@ -9,7 +13,7 @@ public class ParkedDetails {
     private final ParkingSlot parkedSlot;
     private final long parkedTime;
     private final Driver driver;
-    private int spot;
+    private final int spot;
 
     public ParkedDetails(Vehicle vehicle, Driver driver,ParkingAttendant attendant,ParkingSlot parkingSlot, int spot, long parkedTime) {
         this.spot = spot;
@@ -37,10 +41,6 @@ public class ParkedDetails {
 
     public long getParkedTime() {
         return parkedTime;
-    }
-
-    public void setSpot(int spot) {
-        this.spot = spot;
     }
 
     public int getSpot() {
