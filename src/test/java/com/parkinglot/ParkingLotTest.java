@@ -51,7 +51,7 @@ public class ParkingLotTest {
         parkingSlots.add(parkingSlot1);
         parkingSlots.add(parkingSlot2);
         ParkingLot parkingLotService = new ParkingLot(parkingSlots);
-        int numberOfParkingSlots = parkingLotService.getNumberOfParkingSlots();
+        int numberOfParkingSlots = parkingLotService.parkingSlots.size();
         Assert.assertEquals(2,numberOfParkingSlots);
     }
 

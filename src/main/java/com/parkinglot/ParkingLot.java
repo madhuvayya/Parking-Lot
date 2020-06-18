@@ -19,20 +19,19 @@ public class ParkingLot {
         this.numberOfParkingSlots = parkingLots.size();
     }
 
-    public int getNumberOfParkingSlots(){
-        return parkingSlots.size();
-    }
-
     public void parkVehicle(Vehicle vehicle,Driver driver,ParkingAttendant attendant){
         if(vehicle == null && driver == null)
             throw new ParkingLotException(ParkingLotException.ExceptionType.ENTERED_NULL,"Entered null");
+        if(this.checkParkingSlotsFull())
+            throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOTS_ARE_FULL,
+                    "All lots are full");
         if(this.checkVehicleExistenceInParking(vehicle))
             throw new ParkingLotException(ParkingLotException.ExceptionType.EXISTING,"exiting in list");
         parkingStrategy.parkVehicle(parkingSlots,vehicle,driver,attendant);
         this.checkParkingSlotsFull();
     }
 
-    private void checkParkingSlotsFull() {
+    private boolean checkParkingSlotsFull() {
         int numberOfSlotsFull = 0;
         for (ParkingSlot parkingSlot: parkingSlots) {
             if(parkingSlot.getOccupiedSpots() == parkingSlot.parkingSlotCapacity)
@@ -41,9 +40,9 @@ public class ParkingLot {
         if(numberOfSlotsFull == numberOfParkingSlots) {
             parkingLotOwner.full(true);
             airportSecurity.full(true);
-            throw new ParkingLotException(ParkingLotException.ExceptionType.PARKING_LOTS_ARE_FULL,
-                    "All lots are full");
+            return true;
         }
+        return false;
     }
 
     public boolean checkVehicleExistenceInParking(Vehicle vehicle){
@@ -64,10 +63,9 @@ public class ParkingLot {
     public void unParkVehicle(Vehicle vehicle) {
         if(vehicle == null)
             throw new ParkingLotException(ParkingLotException.ExceptionType.ENTERED_NULL,"Entered null");
+        if(!this.checkVehicleExistenceInParking(vehicle))
+            throw new ParkingLotException(ParkingLotException.ExceptionType.EXISTING,"Not exiting in list");
         ParkingSlot parkingSlot = this.getParkedSlot(vehicle);
-        if(parkingSlot == null)
-            throw new ParkingLotException(ParkingLotException.ExceptionType.NOT_IN_SLOTS_LIST,
-                                                "Entered vehicle not in list");
         parkingSlot.unParkVehicle(vehicle);
     }
 
@@ -97,6 +95,15 @@ public class ParkingLot {
         return this.getListOfVehiclesInParkingLots().size();
     }
 
+    private List<ParkedDetails> getAllParkedDetails(){
+        List<ParkedDetails> parkedDetailsList = new ArrayList<>();
+        for (ParkingSlot parkingSlot : parkingSlots) {
+            Collection<ParkedDetails> parkedDetailsListInASlot = parkingSlot.vehicleParkedDetailsMap.values();
+            parkedDetailsList.addAll(parkedDetailsListInASlot);
+        }
+        return parkedDetailsList;
+    }
+
     public List<ParkedDetails> getAllVehiclesBasedOnProperty(Vehicle.VehicleProperty property) {
         return this.getAllParkedDetails().stream()
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(property))
@@ -108,15 +115,6 @@ public class ParkingLot {
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleColor().equals(properties[0]))
                 .filter(parkedDetails -> parkedDetails.getVehicle().getVehicleBrand().equals(properties[1]))
                 .collect(Collectors.toList());
-    }
-
-    private List<ParkedDetails> getAllParkedDetails(){
-        List<ParkedDetails> parkedDetailsList = new ArrayList<>();
-        for (ParkingSlot parkingSlot : parkingSlots) {
-            Collection<ParkedDetails> parkedDetailsListInASlot = parkingSlot.vehicleParkedDetailsMap.values();
-            parkedDetailsList.addAll(parkedDetailsListInASlot);
-        }
-        return parkedDetailsList;
     }
 
     public List<ParkedDetails> getAllVehiclesBasedOnBrand(Vehicle.VehicleProperty property) {

@@ -17,7 +17,7 @@ public class Vehicle {
         RED,
         TOYOTA,
         BMW,
-        BLUE;
+        BLUE
     }
 
 
