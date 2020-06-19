@@ -1,6 +1,6 @@
 package com.parkinglot;
 
-import com.parkinglot.controller.ParkingSlot;
+import com.parkinglot.service.ParkingSlot;
 import com.parkinglot.enums.Driver;
 import com.parkinglot.exception.ParkingLotException;
 import com.parkinglot.model.Vehicle;

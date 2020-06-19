@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.parkinglot.ParkingSlotTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-06-18T17:12:49" hostname="MADHU" time="0.092">
+<testsuite name="com.parkinglot.ParkingSlotTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-06-19T10:01:10" hostname="MADHU" time="0.047">
   <properties/>
-  <testcase name="givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
-  <testcase name="givenVehicleNumbersToPark_whenDriverDisabledPerson_shouldParkInFirstSpot" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
-  <testcase name="givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue" classname="com.parkinglot.ParkingSlotTest" time="0.002"/>
-  <testcase name="givenSameVehicleNumberToPark_whenSameNumberEntered_shouldThrowException" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
-  <testcase name="givenVehicleNumbersToPark_whenParkingLotIsFull_shouldNotThrowException" classname="com.parkinglot.ParkingSlotTest" time="0.006"/>
-  <testcase name="givenVehicleNumbersToPark_whenDriverSecondDisabledPerson_shouldParkInSecondSpot" classname="com.parkinglot.ParkingSlotTest" time="0.013"/>
-  <testcase name="givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked" classname="com.parkinglot.ParkingSlotTest" time="0.002"/>
-  <testcase name="givenVehicleNumber_whenFound_shouldReturnParkedSpot" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
-  <testcase name="givenVehicleNumberToPark_whenParked_shouldReturnTrue" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
-  <testcase name="givenVehicleNumbersToUnPark_whenUnPark_shouldReturnParkedTime" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
-  <testcase name="givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue" classname="com.parkinglot.ParkingSlotTest" time="0.003"/>
+  <testcase name="givenVehicleNumbersToPark_whenParkingLotIsFull_shouldThrowException" classname="com.parkinglot.ParkingSlotTest" time="0.005"/>
+  <testcase name="givenVehicleNumbersToPark_whenDriverDisabledPerson_shouldParkInFirstSpot" classname="com.parkinglot.ParkingSlotTest" time="0.001"/>
+  <testcase name="givenVehicleNumberToUnPark_whenUnParked_shouldReturnTrue" classname="com.parkinglot.ParkingSlotTest" time="0.0"/>
+  <testcase name="givenSameVehicleNumberToPark_whenSameNumberEntered_shouldThrowException" classname="com.parkinglot.ParkingSlotTest" time="0.001"/>
+  <testcase name="givenVehicleNumbersToPark_whenParkingLotIsFull_shouldNotThrowException" classname="com.parkinglot.ParkingSlotTest" time="0.001"/>
+  <testcase name="givenVehicleNumbersToPark_whenDriverSecondDisabledPerson_shouldParkInSecondSpot" classname="com.parkinglot.ParkingSlotTest" time="0.0"/>
+  <testcase name="givenVehicleNumbersToPark_whenParked_shouldReturnNumberOfVehiclesParked" classname="com.parkinglot.ParkingSlotTest" time="0.013"/>
+  <testcase name="givenVehicleNumber_whenFound_shouldReturnParkedSpot" classname="com.parkinglot.ParkingSlotTest" time="0.002"/>
+  <testcase name="givenVehicleNumberToPark_whenParked_shouldReturnTrue" classname="com.parkinglot.ParkingSlotTest" time="0.002"/>
+  <testcase name="givenVehicleNumbersToUnPark_whenUnPark_shouldReturnParkedTime" classname="com.parkinglot.ParkingSlotTest" time="0.004"/>
+  <testcase name="givenWrongVehicleNumberToUnPark_whenNot_shouldReturnTrue" classname="com.parkinglot.ParkingSlotTest" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

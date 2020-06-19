@@ -2,7 +2,7 @@ package com.parkinglot.model;
 
 import com.parkinglot.enums.Driver;
 import com.parkinglot.ParkingAttendant;
-import com.parkinglot.controller.ParkingSlot;
+import com.parkinglot.service.ParkingSlot;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.parkinglot.controller;
+package com.parkinglot.service;
 
 import com.parkinglot.enums.Driver;
 import com.parkinglot.ParkingAttendant;
@@ -64,4 +64,5 @@ public class ParkingSlot {
         int parkedSpot = this.getParkedSpot(vehicle);
         spots[parkedSpot-1] = false;
     }
+
 }

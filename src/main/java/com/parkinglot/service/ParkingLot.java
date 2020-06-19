@@ -1,4 +1,4 @@
-package com.parkinglot.controller;
+package com.parkinglot.service;
 
 import com.parkinglot.*;
 import com.parkinglot.enums.Driver;
@@ -77,6 +77,8 @@ public class ParkingLot {
         if(!this.checkVehicleExistenceInParking(vehicle))
             throw new ParkingLotException(ParkingLotException.ExceptionType.EXISTING,"Not exiting in list");
         ParkingSlot parkingSlot = this.getParkedSlot(vehicle);
+        if(this.checkParkingSlotsFull())
+            parkingLotOwner.fullOrNot(false);
         parkingSlot.unParkVehicle(vehicle);
     }
 

@@ -1,7 +1,7 @@
 package com.parkinglot;
 
-import com.parkinglot.controller.ParkingLot;
-import com.parkinglot.controller.ParkingSlot;
+import com.parkinglot.service.ParkingLot;
+import com.parkinglot.service.ParkingSlot;
 import com.parkinglot.enums.Driver;
 import com.parkinglot.exception.ParkingLotException;
 import com.parkinglot.model.ParkedDetails;
@@ -66,8 +66,8 @@ public class ParkingLotTest {
 
     @Test
     public void givenVehicleNumberToPark_whenParked_shouldReturnOccupiedSpotsInALot() {
-        ParkingSlot parkingSlot1 = new ParkingSlot(1);
-        ParkingSlot parkingSlot2 = new ParkingSlot(3);
+        ParkingSlot parkingSlot1 = spy(new ParkingSlot(1));
+        ParkingSlot parkingSlot2 = spy(new ParkingSlot(3));
         List<ParkingSlot> parkingSlots = new ArrayList<>();
         parkingSlots.add(parkingSlot1);
         parkingSlots.add(parkingSlot2);
@@ -75,8 +75,12 @@ public class ParkingLotTest {
         parkingLot.parkVehicle(vehicle1, Driver.ABLED,attendant1);
         parkingLot.parkVehicle(vehicle2, Driver.ABLED,attendant2);
         parkingLot.parkVehicle(vehicle3, Driver.ABLED,attendant1);
+        doReturn(2).when(parkingSlot2).getOccupiedSpots();
+        doReturn(0).when(parkingSlot1).getOccupiedSpots();
         int occupiedSpotsInASlot = parkingLot.getOccupiedSpotsInASlot(parkingSlot2);
         Assert.assertEquals(2,occupiedSpotsInASlot);
+        int occupiedSpotsInASlot1 = parkingLot.getOccupiedSpotsInASlot(parkingSlot1);
+        Assert.assertEquals(0,occupiedSpotsInASlot1);
     }
 
     @Test
@@ -135,8 +139,8 @@ public class ParkingLotTest {
 
     @Test
     public void givenVehicleNumberToFind_whenFound_shouldReturnParkingSlot() {
-        ParkingSlot parkingSlot1 = new ParkingSlot(2);
-        ParkingSlot parkingSlot2 = new ParkingSlot(5);
+        ParkingSlot parkingSlot1 = spy(new ParkingSlot(2));
+        ParkingSlot parkingSlot2 = spy(new ParkingSlot(5));
         List<ParkingSlot> parkingSlots = new ArrayList<>();
         parkingSlots.add(parkingSlot1);
         parkingSlots.add(parkingSlot2);
@@ -154,18 +158,21 @@ public class ParkingLotTest {
     public void givenVehicleNumberToFind_whenFound_shouldReturnParkingSpot() {
         ParkingSlot parkingSlot1 = spy(new ParkingSlot(2));
         ParkingSlot parkingSlot2 = spy(new ParkingSlot(5));
-        List<ParkingSlot> parkingLotList = new ArrayList<>();
-        parkingLotList.add(parkingSlot1);
-        parkingLotList.add(parkingSlot2);
-        ParkingLot parkingLot = new ParkingLot(parkingLotList);
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        parkingSlots.add(parkingSlot1);
+        parkingSlots.add(parkingSlot2);
+        ParkingLot parkingLot = new ParkingLot(parkingSlots);
         parkingLot.parkVehicle(vehicle1, Driver.ABLED,attendant1);
         parkingLot.parkVehicle(vehicle2, Driver.ABLED,attendant2);
         parkingLot.parkVehicle(vehicle3, Driver.ABLED,attendant1);
         parkingLot.parkVehicle(vehicle4, Driver.ABLED,attendant2);
         parkingLot.parkVehicle(vehicle5, Driver.ABLED,attendant1);
-        when(parkingSlot1.getParkedSpot(vehicle3)).thenReturn(4);
+        doReturn(2).when(parkingSlot1).getParkedSpot(vehicle3);
+        doReturn(5).when(parkingSlot2).getParkedSpot(vehicle5);
         int parkedSpot = parkingLot.getParkedSpot( vehicle3);
-        Assert.assertEquals(4,parkedSpot);
+        int parkedSpot1 = parkingLot.getParkedSpot(vehicle5);
+        Assert.assertEquals(2,parkedSpot);
+        Assert.assertEquals(5,parkedSpot1);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.parkinglot.controller;
+package com.parkinglot.service;
 
 import com.parkinglot.enums.Driver;
 import com.parkinglot.ParkingAttendant;
